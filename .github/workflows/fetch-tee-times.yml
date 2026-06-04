@@ -1,0 +1,188 @@
+name: Fetch Sunday Tee Times
+
+on:
+  schedule:
+    # Runs every day at 8:00 AM Brisbane time (AEST UTC+10 = 10:00 PM UTC previous day)
+    - cron: '0 22 * * *'
+  workflow_dispatch: # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  fetch-tee-times:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch tee times for next 4 Sundays and save to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          node << 'JSEOF'
+          const https = require('https');
+
+          const SUPABASE_URL = process.env.SUPABASE_URL;
+          const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+
+          // Get the next 4 Sundays from today
+          function getNextSundays(count) {
+            const sundays = [];
+            const today = new Date();
+            const day = today.getDay(); // 0 = Sunday
+            const daysUntilSunday = day === 0 ? 0 : 7 - day;
+            
+            for (let i = 0; i < count; i++) {
+              const sunday = new Date(today);
+              sunday.setDate(today.getDate() + daysUntilSunday + (i * 7));
+              const yyyy = sunday.getFullYear();
+              const mm = String(sunday.getMonth() + 1).padStart(2, '0');
+              const dd = String(sunday.getDate()).padStart(2, '0');
+              sundays.push({
+                ymd: `${yyyy}-${mm}-${dd}`,
+                dmy: `${dd}/${mm}/${yyyy}`,
+                label: sunday.toLocaleDateString('en-AU', { day: 'numeric', month: 'long' }),
+              });
+            }
+            return sundays;
+          }
+
+          // Courses to fetch
+          const courses = [
+            {
+              id: 'redcliffe',
+              name: 'Redcliffe Golf Club',
+              baseUrl: 'https://www.redcliffegolf.com/guests/bookings/ViewPublicCalendar.msp?booking_resource_id=3000000',
+              bookingUrl: 'https://www.redcliffegolf.com/guests/bookings/ViewPublicCalendar.msp?booking_resource_id=3000000',
+            },
+          ];
+
+          function fetchPage(url) {
+            return new Promise((resolve, reject) => {
+              const options = {
+                headers: {
+                  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                  'Accept': 'text/html,application/xhtml+xml',
+                },
+                timeout: 15000,
+              };
+              const req = https.get(url, options, (res) => {
+                if (res.statusCode === 301 || res.statusCode === 302) {
+                  return fetchPage(res.headers.location).then(resolve).catch(reject);
+                }
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => resolve(data));
+              });
+              req.on('error', reject);
+              req.on('timeout', () => { req.destroy(); reject(new Error('Timeout')); });
+            });
+          }
+
+          function parseEarliestTime(html, minPlayers) {
+            const timePattern = /(\d{1,2}:\d{2}\s*[AP]M)/gi;
+            const fullPattern = /BookingUnavailable|unavailable|Unavailable|full|Full/i;
+            const rows = html.split(/<tr/i);
+
+            for (const row of rows) {
+              const timeMatch = row.match(timePattern);
+              if (!timeMatch) continue;
+              const time = timeMatch[0].replace(/\s+/g, '').toUpperCase();
+              const isUnavailable = fullPattern.test(row);
+              const spotMatch = row.match(/(\d+)\s*(?:spot|player|space)/i);
+              const spots = spotMatch ? parseInt(spotMatch[1]) : 4;
+              if (!isUnavailable && spots >= minPlayers) {
+                return time;
+              }
+            }
+            return null;
+          }
+
+          function saveToSupabase(records) {
+            return new Promise((resolve, reject) => {
+              const body = JSON.stringify(records);
+              const urlParts = new URL(`${SUPABASE_URL}/rest/v1/tee_times`);
+              const options = {
+                hostname: urlParts.hostname,
+                path: `${urlParts.pathname}?on_conflict=course_id,date`,
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Content-Length': Buffer.byteLength(body),
+                  'apikey': SUPABASE_ANON_KEY,
+                  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                  'Prefer': 'resolution=merge-duplicates',
+                },
+              };
+              const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                  if (res.statusCode >= 200 && res.statusCode < 300) {
+                    resolve(data);
+                  } else {
+                    reject(new Error(`Supabase ${res.statusCode}: ${data}`));
+                  }
+                });
+              });
+              req.on('error', reject);
+              req.write(body);
+              req.end();
+            });
+          }
+
+          // Main
+          (async () => {
+            const sundays = getNextSundays(4);
+            console.log(`Fetching tee times for: ${sundays.map(s => s.label).join(', ')}`);
+
+            for (const course of courses) {
+              for (const sunday of sundays) {
+                try {
+                  const url = `${course.baseUrl}&date=${sunday.dmy}`;
+                  console.log(`Fetching ${course.name} for ${sunday.label}...`);
+                  const html = await fetchPage(url);
+
+                  const earliest2 = parseEarliestTime(html, 2);
+                  const earliest3 = parseEarliestTime(html, 3);
+                  const earliest4 = parseEarliestTime(html, 4);
+
+                  console.log(`  2p: ${earliest2 || 'none'} | 3p: ${earliest3 || 'none'} | 4p: ${earliest4 || 'none'}`);
+
+                  await saveToSupabase([{
+                    course_id: course.id,
+                    course_name: course.name,
+                    date: sunday.ymd,
+                    earliest_2: earliest2,
+                    earliest_3: earliest3,
+                    earliest_4: earliest4,
+                    booking_url: course.bookingUrl,
+                    fetched_at: new Date().toISOString(),
+                    error: null,
+                  }]);
+
+                  console.log(`  Saved ✓`);
+
+                  // Small delay between requests to be polite
+                  await new Promise(r => setTimeout(r, 1000));
+
+                } catch (err) {
+                  console.error(`  Failed: ${err.message}`);
+                  try {
+                    await saveToSupabase([{
+                      course_id: course.id,
+                      course_name: course.name,
+                      date: sunday.ymd,
+                      earliest_2: null,
+                      earliest_3: null,
+                      earliest_4: null,
+                      booking_url: course.bookingUrl,
+                      fetched_at: new Date().toISOString(),
+                      error: err.message,
+                    }]);
+                  } catch (e) {
+                    console.error(`  Could not save error record: ${e.message}`);
+                  }
+                }
+              }
+            }
+            console.log('All done!');
+          })();
+          JSEOF
