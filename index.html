@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brisbane Golf Tee Times — Compare & Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #1a3a2a;
+    --green-mid: #2d6a4f;
+    --green-light: #52b788;
+    --green-pale: #b7e4c7;
+    --fairway: #d8f3dc;
+    --sand: #f5e6c8;
+    --sand-dark: #e8c98a;
+    --white: #fafaf8;
+    --ink: #1a1a18;
+    --muted: #6b7a6e;
+    --card-bg: #ffffff;
+    --border: #e2ede5;
+    --shadow: 0 4px 24px rgba(26,58,42,0.10);
+    --shadow-hover: 0 12px 40px rgba(26,58,42,0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green-deep);
+    position: relative;
+    overflow: hidden;
+    padding: 56px 24px 48px;
+    text-align: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 120%, rgba(82,183,136,0.18) 0%, transparent 70%),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.015) 40px,
+        rgba(255,255,255,0.015) 41px
+      );
+    pointer-events: none;
+  }
+  .hero-flag {
+    display: inline-block;
+    background: var(--green-light);
+    color: var(--green-deep);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 6vw, 3.6rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--green-pale);
+  }
+  .hero p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat strong {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--green-pale);
+    font-weight: 700;
+  }
+  .hero-stat span {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── FILTERS ── */
+  .filters-wrap {
+    background: var(--sand);
+    border-bottom: 1px solid var(--sand-dark);
+    padding: 20px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+  .filters {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-right: 4px;
+  }
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .chip {
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--sand-dark);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .chip:hover { border-color: var(--green-mid); color: var(--green-mid); }
+  .chip.active { background: var(--green-deep); border-color: var(--green-deep); color: white; }
+
+  .sort-select {
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--sand-dark);
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    margin-left: auto;
+    outline: none;
+  }
+  .sort-select:focus { border-color: var(--green-mid); }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+  .results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .results-count {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .results-count strong { color: var(--ink); }
+
+  /* ── CARDS ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, transform 0.2s;
+    animation: fadeUp 0.4s ease both;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-header {
+    padding: 20px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    line-height: 1.2;
+  }
+  .card-suburb {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .card-type-badge {
+    flex-shrink: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: var(--fairway);
+    color: var(--green-mid);
+  }
+  .card-type-badge.semi { background: var(--sand); color: #7a5a1a; }
+
+  .card-body {
+    padding: 16px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .info-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .info-pill svg { flex-shrink: 0; }
+
+  .fees-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .fee-box {
+    background: var(--fairway);
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: center;
+  }
+  .fee-box.highlight { background: var(--green-deep); }
+  .fee-box .fee-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 3px;
+  }
+  .fee-box.highlight .fee-label { color: var(--green-pale); }
+  .fee-box .fee-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--green-deep);
+  }
+  .fee-box.highlight .fee-amount { color: white; }
+  .fee-box .fee-sub {
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-top: 1px;
+  }
+  .fee-box.highlight .fee-sub { color: var(--green-pale); }
+
+  .amenities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .amenity-tag {
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    border-radius: 8px;
+    background: #f0f7f2;
+    color: var(--green-mid);
+    border: 1px solid #c5e5cd;
+  }
+
+  .notes-text {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .card-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+  }
+  .btn-book {
+    flex: 1;
+    padding: 10px 16px;
+    background: var(--green-deep);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background 0.18s;
+  }
+  .btn-book:hover { background: var(--green-mid); }
+  .btn-phone {
+    padding: 10px 14px;
+    background: transparent;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: border-color 0.18s;
+    color: var(--ink);
+  }
+  .btn-phone:hover { border-color: var(--green-mid); }
+
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    grid-column: 1/-1;
+  }
+  .empty svg { margin-bottom: 14px; opacity: 0.4; }
+  .empty p { font-size: 1rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-deep);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 24px;
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+  footer a { color: var(--green-pale); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .filters { flex-direction: column; align-items: flex-start; }
+    .sort-select { margin-left: 0; }
+    .fees-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <span class="hero-flag">⛳ Brisbane Golf Finder</span>
+  <h1>Find Your <em>Perfect</em><br>Tee Time</h1>
+  <p>Compare green fees, distance, and facilities at public &amp; visitor-friendly courses across Greater Brisbane.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong id="courseCount">—</strong><span>Courses</span></div>
+    <div class="hero-stat"><strong>$23</strong><span>From (9 holes)</span></div>
+    <div class="hero-stat"><strong>7 days</strong><span>Open all week</span></div>
+  </div>
+</section>
+
+<div class="filters-wrap">
+  <div class="filters">
+    <span class="filter-label">Holes</span>
+    <div class="filter-group">
+      <button class="chip active" data-filter="holes" data-val="all">All</button>
+      <button class="chip" data-filter="holes" data-val="9">9 Holes</button>
+      <button class="chip" data-filter="holes" data-val="18">18 Holes</button>
+    </div>
+    <span class="filter-label" style="margin-left:8px">Access</span>
+    <div class="filter-group">
+      <button class="chip active" data-filter="access" data-val="all">All</button>
+      <button class="chip" data-filter="access" data-val="public">Public</button>
+      <button class="chip" data-filter="access" data-val="semi">Semi-Private</button>
+    </div>
+    <select class="sort-select" id="sortSelect">
+      <option value="name">Sort: A–Z</option>
+      <option value="price18asc">Price: Low–High (18)</option>
+      <option value="price18desc">Price: High–Low (18)</option>
+      <option value="distance">Distance from CBD</option>
+    </select>
+  </div>
+</div>
+
+<main class="main">
+  <div class="results-header">
+    <p class="results-count">Showing <strong id="visibleCount">0</strong> courses</p>
+    <p class="results-count" style="font-size:0.72rem">Fees last checked June 2026 · Always verify before booking</p>
+  </div>
+  <div class="grid" id="courseGrid"></div>
+</main>
+
+<footer>
+  <p>Brisbane Golf Finder · Fees are indicative and subject to change. Always confirm with the course before booking.</p>
+  <p style="margin-top:6px">Built by <a href="https://benjy333.github.io/Bens-Trivia" target="_blank">Benjy333</a> · Data sourced from course websites · Not affiliated with any golf club</p>
+</footer>
+
+<script>
+const courses = [
+  {
+    id: 1,
+    name: "St Lucia Golf Links",
+    suburb: "St Lucia",
+    type: "public",
+    holes: 18,
+    par: 69,
+    length: "5,411m",
+    rating: "—",
+    distanceKm: 8,
+    distanceLabel: "8 km from CBD",
+    walkable: true,
+    cartsAvailable: true,
+    drivingRange: false,
+    restaurant: true,
+    proShop: true,
+    fee9: 32,
+    fee18: 51,
+    cart9: 24,
+    cart18: 29,
+    twilight: "$25 (walk) from 3:30pm",
+    bookingUrl: "https://www.hillstonestlucia.com.au/golf/fees-and-booking/",
+    phone: "07 3870 3433",
+    notes: "Open 6am–6pm daily. Book up to 14 days ahead. Walk-ins welcome subject to availability. Centenary year 2026 — Brisbane's oldest public layout.",
+    amenities: ["Restaurant / Bar", "Pro Shop", "Golf Simulator", "Putt Putt", "River Views"],
+    saturday: true,
+    sunday: true,
+  },
+  {
+    id: 2,
+    name: "Minnippi Golf & Range",
+    suburb: "Cannon Hill",
+    type: "public",
+    holes: 18,
+    par: 72,
+    length: "6,561 yards",
+    rating: "73.1",
+    distanceKm: 12,
+    distanceLabel: "12 km from CBD",
+    walkable: true,
+    cartsAvailable: true,
+    drivingRange: true,
+    restaurant: true,
+    proShop: true,
+    fee9: null,
+    fee18: null, // Price not publicly listed — call to confirm
+    cart9: null,
+    cart18: null,
+    twilight: null,
+    bookingUrl: "https://minnippipublicgolfcourse.com.au/",
+    phone: null,
+    notes: "Brisbane's newest public course (2023). No bunkers — timber sleepers instead. Fully public, no dress code. 3, 6, 9 or 18 hole options. Cooee Café on site. Call or book online for current pricing.",
+    amenities: ["Café & Restaurant", "Pro Shop", "20-Bay Driving Range", "Electric Carts", "No Bunkers"],
+    saturday: true,
+    sunday: true,
+  },
+  {
+    id: 3,
+    name: "Pacific Golf Club",
+    suburb: "Carindale",
+    type: "semi",
+    holes: 18,
+    par: 72,
+    length: "6,242 yards",
+    rating: "—",
+    distanceKm: 14,
+    distanceLabel: "14 km from CBD",
+    walkable: true,
+    cartsAvailable: true,
+    drivingRange: false,
+    restaurant: true,
+    proShop: true,
+    fee9: null,
+    fee18: null, // Visitor fees by phone only
+    cart9: null,
+    cart18: null,
+    twilight: null,
+    bookingUrl: "https://www.pacificgolf.com.au/cms/public-bookings/",
+    phone: "07 3343 0887",
+    notes: "Collared shirt required. Mon–Fri & Sunday (after competition) available for visitors. Saturday members only. Sunday social bookings by phone. Register as a public member online first to book tee times. Call pro shop for current visitor fees.",
+    amenities: ["Restaurant", "Pro Shop", "Par 3 Course", "Golf Simulators", "Mini Golf"],
+    saturday: false,
+    sunday: true,
+  },
+  {
+    id: 4,
+    name: "Bulimba Golf Club",
+    suburb: "Bulimba",
+    type: "public",
+    holes: 18,
+    par: null,
+    length: "—",
+    rating: "—",
+    distanceKm: 6,
+    distanceLabel: "6 km from CBD",
+    walkable: true,
+    cartsAvailable: false,
+    drivingRange: false,
+    restaurant: false,
+    proShop: false,
+    fee9: null,
+    fee18: null,
+    cart9: null,
+    cart18: null,
+    twilight: null,
+    bookingUrl: "https://www.golfpass.com/travel-advisor/courses/43793-minnippi-golf-range",
+    phone: null,
+    notes: "Compact public course close to the CBD. Limited facilities — best suited to a quick casual round. Call ahead to confirm availability and current fees.",
+    amenities: ["Walk-on Friendly", "Closest to CBD"],
+    saturday: true,
+    sunday: true,
+  },
+  {
+    id: 5,
+    name: "Wynnum Golf Club",
+    suburb: "Wynnum",
+    type: "semi",
+    holes: 18,
+    par: null,
+    length: "—",
+    rating: "—",
+    distanceKm: 18,
+    distanceLabel: "18 km from CBD",
+    walkable: true,
+    cartsAvailable: true,
+    drivingRange: false,
+    restaurant: true,
+    proShop: true,
+    fee9: null,
+    fee18: null,
+    cart9: null,
+    cart18: null,
+    twilight: null,
+    bookingUrl: "https://www.wynnum.golf/",
+    phone: null,
+    notes: "Semi-private club — visitors welcome on weekdays and some Sundays. Contact the club directly for current visitor green fee rates and available tee times.",
+    amenities: ["Clubhouse", "Pro Shop", "Visitors Welcome Weekdays"],
+    saturday: false,
+    sunday: true,
+  },
+  {
+    id: 6,
+    name: "Howeston Golf Course",
+    suburb: "Capalaba",
+    type: "public",
+    holes: 18,
+    par: null,
+    length: "—",
+    rating: "—",
+    distanceKm: 20,
+    distanceLabel: "20 km from CBD",
+    walkable: true,
+    cartsAvailable: true,
+    drivingRange: false,
+    restaurant: false,
+    proShop: false,
+    fee9: null,
+    fee18: null,
+    cart9: null,
+    cart18: null,
+    twilight: null,
+    bookingUrl: "https://howeston.com.au/",
+    phone: null,
+    notes: "Public pay-and-play course on Brisbane's bayside. Suited to all skill levels. Contact directly for current green fees and tee time availability.",
+    amenities: ["Pay & Play", "Bayside Location"],
+    saturday: true,
+    sunday: true,
+  },
+];
+
+// ── STATE ──
+let filterHoles = 'all';
+let filterAccess = 'all';
+let sortBy = 'name';
+
+// ── ICONS ──
+const icons = {
+  location: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  walk: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="5" r="2"/><path d="m6 10 3-3 2 4 3-3 2 5"/><path d="m8 16 1 5"/><path d="m14 14.5 1 6.5"/></svg>`,
+  cart: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 4 0 2 2 0 0 0-4 0zm-10 2a2 2 0 1 0 4 0 2 2 0 0 0-4 0z"/></svg>`,
+  flag: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`,
+  arrow: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`,
+  phone: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.83a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.7 16.92z"/></svg>`,
+};
+
+function fmtFee(val) {
+  if (val === null || val === undefined) return '<span style="color:var(--muted);font-size:0.9rem">Call</span>';
+  return `$${val}`;
+}
+
+function renderCard(c) {
+  const isPublic = c.type === 'public';
+  const badgeClass = isPublic ? '' : 'semi';
+  const badgeLabel = isPublic ? 'Public' : 'Semi-Private';
+
+  const satIcon = c.saturday
+    ? `<span style="color:var(--green-mid)">✓ Sat</span>`
+    : `<span style="color:#c97a1a">✗ Sat (members)</span>`;
+  const sunIcon = `<span style="color:var(--green-mid)">✓ Sun</span>`;
+
+  const hasKnownFees = c.fee18 !== null || c.fee9 !== null;
+
+  let feesHtml = '';
+  if (hasKnownFees) {
+    feesHtml = `
+    <div class="fees-grid">
+      <div class="fee-box">
+        <span class="fee-label">9 Holes Walk</span>
+        <div class="fee-amount">${fmtFee(c.fee9)}</div>
+        ${c.cart9 ? `<div class="fee-sub">+$${c.cart9} cart</div>` : ''}
+      </div>
+      <div class="fee-box highlight">
+        <span class="fee-label">18 Holes Walk</span>
+        <div class="fee-amount">${fmtFee(c.fee18)}</div>
+        ${c.cart18 ? `<div class="fee-sub">+$${c.cart18} cart</div>` : ''}
+      </div>
+    </div>`;
+    if (c.twilight) {
+      feesHtml += `<p class="notes-text">🌅 Twilight: ${c.twilight}</p>`;
+    }
+  } else {
+    feesHtml = `
+    <div style="background:var(--sand);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.3rem">📞</span>
+      <div>
+        <div style="font-size:0.8rem;font-weight:600;color:var(--ink)">Fees available by phone / website</div>
+        <div style="font-size:0.75rem;color:var(--muted);">Contact the course for current green fees</div>
+      </div>
+    </div>`;
+  }
+
+  return `
+  <div class="card" data-id="${c.id}">
+    <div class="card-header">
+      <div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-suburb">${c.suburb}</div>
+      </div>
+      <span class="card-type-badge ${badgeClass}">${badgeLabel}</span>
+    </div>
+    <div class="card-body">
+      <div class="info-row">
+        <span class="info-pill">${icons.location} ${c.distanceLabel}</span>
+        <span class="info-pill">${icons.flag} Par ${c.par || '—'} · ${c.holes} holes</span>
+        ${c.walkable ? `<span class="info-pill">${icons.walk} Walkable</span>` : ''}
+        ${c.cartsAvailable ? `<span class="info-pill">${icons.cart} Carts</span>` : ''}
+      </div>
+      <div style="display:flex;gap:10px;font-size:0.75rem;">
+        ${satIcon} &nbsp; ${sunIcon}
+      </div>
+      ${feesHtml}
+      <div class="amenities">
+        ${c.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('')}
+      </div>
+      <p class="notes-text">${c.notes}</p>
+    </div>
+    <div class="card-footer">
+      <a href="${c.bookingUrl}" target="_blank" rel="noopener" class="btn-book">
+        Book Tee Time ${icons.arrow}
+      </a>
+      ${c.phone ? `<a href="tel:${c.phone.replace(/\s/g,'')}" class="btn-phone" title="Call ${c.phone}">${icons.phone}</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function getSort(a, b) {
+  if (sortBy === 'name') return a.name.localeCompare(b.name);
+  if (sortBy === 'price18asc') {
+    const fa = a.fee18 ?? 9999, fb = b.fee18 ?? 9999;
+    return fa - fb;
+  }
+  if (sortBy === 'price18desc') {
+    const fa = a.fee18 ?? -1, fb = b.fee18 ?? -1;
+    return fb - fa;
+  }
+  if (sortBy === 'distance') return a.distanceKm - b.distanceKm;
+  return 0;
+}
+
+function render() {
+  let filtered = courses.filter(c => {
+    if (filterHoles === '9' && !c.fee9 && c.holes !== 9) return false; // crude: show all that offer 9
+    if (filterHoles === '18' && c.holes < 18) return false;
+    if (filterAccess === 'public' && c.type !== 'public') return false;
+    if (filterAccess === 'semi' && c.type !== 'semi') return false;
+    return true;
+  });
+  // 9-hole filter: show courses that offer 9 holes (all of them effectively do)
+  if (filterHoles === '9') {
+    filtered = courses.filter(c => {
+      if (filterAccess === 'public' && c.type !== 'public') return false;
+      if (filterAccess === 'semi' && c.type !== 'semi') return false;
+      return true; // all courses let you do 9
+    });
+  }
+
+  filtered.sort(getSort);
+
+  const grid = document.getElementById('courseGrid');
+  document.getElementById('visibleCount').textContent = filtered.length;
+  document.getElementById('courseCount').textContent = courses.length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <p>No courses match those filters. Try adjusting your selection.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(renderCard).join('');
+}
+
+// ── EVENT LISTENERS ──
+document.querySelectorAll('.chip[data-filter="holes"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.chip[data-filter="holes"]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterHoles = btn.dataset.val;
+    render();
+  });
+});
+document.querySelectorAll('.chip[data-filter="access"]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.chip[data-filter="access"]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterAccess = btn.dataset.val;
+    render();
+  });
+});
+document.getElementById('sortSelect').addEventListener('change', e => {
+  sortBy = e.target.value;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
