@@ -344,15 +344,36 @@ function buildUrl(c,dateStr,players){
   return c.bookingUrl;
 }
 
-async function fetchLiveTimes(dateStr,players){
-  const res = await fetch(`${EDGE_FN_URL}?date=${dateStr}&players=${players}`,{
-    headers:{
-      'apikey': SUPABASE_ANON_KEY,
-      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+// Fetch pre-fetched tee times from Supabase database (written by GitHub Action every Sunday)
+async function fetchLiveTimes(dateStr, players){
+  const col = players >= 4 ? 'earliest_4' : players >= 3 ? 'earliest_3' : 'earliest_2';
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/tee_times?date=eq.${dateStr}&select=course_id,course_name,${col},booking_url,fetched_at,error`,
+    {
+      headers:{
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+      }
     }
-  });
-  if(!res.ok) throw new Error(`Edge function error: ${res.status}`);
-  return res.json();
+  );
+  if(!res.ok) throw new Error(`Supabase error: ${res.status}`);
+  const rows = await res.json();
+  // Transform DB rows into the results format the UI expects
+  return {
+    date: dateStr,
+    players,
+    results: rows.map(r => ({
+      courseId: r.course_id,
+      courseName: r.course_name,
+      earliestAvailable: r[col] || null,
+      totalAvailable: r[col] ? 1 : 0,
+      times: r[col] ? [{time: r[col], available: true, spots: 4}] : [],
+      error: r.error || null,
+      bookingUrl: r.booking_url,
+      fetchedAt: r.fetched_at,
+    }))
+  };
 }
 
 function renderQbCard(c, dateStr, players, holes, liveData){
@@ -378,30 +399,28 @@ function renderQbCard(c, dateStr, players, holes, liveData){
   let badgeHtml='';
   if(c.liveId && liveData){
     const courseResult = liveData.results?.find(r=>r.courseId===c.liveId);
-    if(courseResult && !courseResult.error){
-      badgeHtml='<span class="qb-live-badge live">⚡ Live</span>';
-      if(courseResult.times && courseResult.times.length>0){
-        const chips = courseResult.times.slice(0,16).map(t=>{
-          if(t.available){
-            const url=t.bookUrl?`${c.bookingUrl.split('?')[0]}${t.bookUrl}`:buildUrl(c,dateStr,players);
-            return `<a href="${url}" target="_blank" class="qb-time-chip avail" title="${t.spots} spot${t.spots!==1?'s':''} available">${t.time}</a>`;
-          }
-          return `<span class="qb-time-chip taken">${t.time}</span>`;
-        }).join('');
-        const avail=courseResult.totalAvailable;
-        timesHtml=`<div class="qb-times-wrap">
-          <div class="qb-times-label">Live tee times — ${avail} available for ${players}+ players</div>
-          <div class="qb-times">${chips||'<span class="qb-no-times">No times found for this date</span>'}</div>
-        </div>`;
-      } else {
-        timesHtml=`<div class="qb-times-wrap"><div class="qb-times-label">Live tee times</div><div class="qb-no-times">No tee times found for this date — course may be closed or fully booked</div></div>`;
-      }
+    if(courseResult && !courseResult.error && courseResult.earliestAvailable){
+      badgeHtml='<span class="qb-live-badge live">⚡ Auto-fetched</span>';
+      const fetchedAt = courseResult.fetchedAt ? new Date(courseResult.fetchedAt).toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}) : '';
+      timesHtml=`<div class="qb-times-wrap">
+        <div class="qb-times-label">Earliest available tee time for ${players} players</div>
+        <div class="qb-times">
+          <a href="${buildUrl(c,dateStr,players)}" target="_blank" class="qb-time-chip avail">⏰ ${courseResult.earliestAvailable}</a>
+        </div>
+        ${fetchedAt?`<div style="font-size:.65rem;color:rgba(255,255,255,.25);margin-top:4px">Last checked ${fetchedAt}</div>`:''}
+      </div>`;
     } else if(courseResult?.error){
-      badgeHtml='<span class="qb-live-badge error">⚠ Live fetch failed</span>';
-      timesHtml=`<div class="qb-no-times" style="font-size:.72rem">${courseResult.error}</div>`;
+      badgeHtml='<span class="qb-live-badge error">⚠ Fetch failed</span>';
+      timesHtml=`<div class="qb-no-times">Could not fetch times — <a href="${buildUrl(c,dateStr,players)}" target="_blank" style="color:var(--gl)">check directly →</a></div>`;
+    } else if(liveData && !courseResult){
+      badgeHtml='<span class="qb-live-badge static">Not yet fetched</span>';
+      timesHtml=`<div class="qb-no-times">Times not yet available — GitHub Action runs Sunday 5am AEST</div>`;
+    } else if(courseResult && !courseResult.earliestAvailable){
+      badgeHtml='<span class="qb-live-badge error">Fully booked</span>';
+      timesHtml=`<div class="qb-no-times">No available times found for ${players} players — <a href="${buildUrl(c,dateStr,players)}" target="_blank" style="color:var(--gl)">check directly →</a></div>`;
     } else {
       badgeHtml='<span class="qb-live-badge static">Loading…</span>';
-      timesHtml=`<div class="qb-times-loading">Fetching live tee times…</div>`;
+      timesHtml=`<div class="qb-times-loading">Checking database…</div>`;
     }
   } else {
     badgeHtml='<span class="qb-live-badge static">Link</span>';
@@ -435,6 +454,26 @@ function renderQbCard(c, dateStr, players, holes, liveData){
   </div>`;
 }
 
+// Get next N Sundays from a given date
+function getNextSundays(fromDate, count) {
+  const sundays = [];
+  const d = new Date(fromDate);
+  const day = d.getDay();
+  const daysUntilSunday = day === 0 ? 0 : 7 - day;
+  for (let i = 0; i < count; i++) {
+    const s = new Date(d);
+    s.setDate(d.getDate() + daysUntilSunday + (i * 7));
+    const yyyy = s.getFullYear();
+    const mm = String(s.getMonth()+1).padStart(2,'0');
+    const dd = String(s.getDate()).padStart(2,'0');
+    sundays.push({
+      ymd: `${yyyy}-${mm}-${dd}`,
+      label: s.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long'}),
+    });
+  }
+  return sundays;
+}
+
 document.getElementById('qbSearch').addEventListener('click', async ()=>{
   const dateStr=document.getElementById('qbDate').value;
   const players=parseInt(document.getElementById('qbPlayers').value);
@@ -444,26 +483,40 @@ document.getElementById('qbSearch').addEventListener('click', async ()=>{
   const btn=document.getElementById('qbSearch');
   btn.disabled=true; btn.textContent='⏳ Fetching…';
 
-  const d=new Date(dateStr);
-  const pretty=d.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('qbResultsTitle').innerHTML=`Tee times for <strong>${pretty}</strong> · <strong>${players} golfer${players>1?'s':''}</strong> · <strong>${holes} holes</strong>`;
+  // Get next 4 Sundays from selected date
+  const sundays = getNextSundays(dateStr, 4);
+  const visibleCourses = courses.filter(c=>c.type!=='private');
 
-  // Show results area immediately with loading state for live courses
-  const visibleCourses=courses.filter(c=>c.type!=='private');
-  document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,null)).join('');
+  document.getElementById('qbResultsTitle').innerHTML=
+    `Next 4 Sundays · <strong>${players} golfer${players>1?'s':''}</strong> · <strong>${holes} holes</strong>`;
+
+  // Build sections for each Sunday
+  let allHtml = '';
+  for (const sunday of sundays) {
+    allHtml += `<div style="grid-column:1/-1;margin:8px 0 4px;color:var(--gp);font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:6px">${sunday.label}</div>`;
+    allHtml += visibleCourses.map(c=>renderQbCard(c,sunday.ymd,players,holes,null)).join('');
+  }
+  document.getElementById('qbCards').innerHTML = allHtml;
   document.getElementById('qbResults').classList.add('show');
   document.getElementById('qbResults').scrollIntoView({behavior:'smooth',block:'nearest'});
 
-  // Fetch live data
+  // Fetch live data for all 4 Sundays in parallel
   try {
-    const liveData = await fetchLiveTimes(dateStr,players);
+    const liveDataArr = await Promise.all(sundays.map(s => fetchLiveTimes(s.ymd, players).catch(err=>({
+      date:s.ymd, players, results:[{courseId:'redcliffe',error:err.message,times:[],totalAvailable:0,earliestAvailable:null}]
+    }))));
+
     // Re-render with live data
-    document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,liveData)).join('');
+    let html = '';
+    for (let i = 0; i < sundays.length; i++) {
+      const sunday = sundays[i];
+      const liveData = liveDataArr[i];
+      html += `<div style="grid-column:1/-1;margin:8px 0 4px;color:var(--gp);font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:6px">${sunday.label}</div>`;
+      html += visibleCourses.map(c=>renderQbCard(c,sunday.ymd,players,holes,liveData)).join('');
+    }
+    document.getElementById('qbCards').innerHTML = html;
   } catch(err){
     console.warn('Live fetch failed:',err);
-    // Re-render with error state for live courses
-    const errorData={results:[{courseId:'redcliffe',error:err.message,times:[],totalAvailable:0,earliestAvailable:null}]};
-    document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,errorData)).join('');
   }
 
   btn.disabled=false; btn.textContent='⚡ Find Tee Times';
