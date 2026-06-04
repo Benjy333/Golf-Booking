@@ -20,166 +20,194 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink)}
 
-/* HERO */
-.hero{background:var(--gd);padding:48px 24px 40px;text-align:center;position:relative;overflow:hidden}
+.hero{background:var(--gd);padding:44px 24px 36px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 120%,rgba(82,183,136,.2) 0%,transparent 70%),repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(255,255,255,.015) 40px,rgba(255,255,255,.015) 41px);pointer-events:none}
 .hero-flag{display:inline-block;background:var(--gl);color:var(--gd);font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:14px}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,5.5vw,3.2rem);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:10px;position:relative}
 .hero h1 em{font-style:italic;color:var(--gp)}
-.hero p{color:rgba(255,255,255,.65);font-size:.95rem;max-width:500px;margin:0 auto 24px;line-height:1.6;position:relative}
+.hero p{color:rgba(255,255,255,.65);font-size:.95rem;max-width:500px;margin:0 auto 22px;line-height:1.6;position:relative}
 .hero-stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;position:relative}
 .hero-stat strong{display:block;font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--gp)}
 .hero-stat span{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em}
 
-/* ── QUICK BOOK PANEL ── */
-.qb-wrap{background:linear-gradient(135deg,#0f2a1e 0%,#1a3a2a 100%);border-bottom:3px solid var(--gl);padding:28px 24px}
-.qb-inner{max-width:900px;margin:0 auto}
-.qb-title{color:var(--gp);font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.qb-sub{color:rgba(255,255,255,.5);font-size:.78rem;margin-bottom:18px}
-.qb-fields{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
-.qb-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px}
-.qb-field label{font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-.qb-input{padding:10px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:white;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;transition:border .18s;width:100%}
+/* ── QUICK BOOK ── */
+.qb-wrap{background:linear-gradient(135deg,#0f2a1e 0%,#1a3a2a 100%);border-bottom:3px solid var(--gl);padding:26px 24px}
+.qb-inner{max-width:960px;margin:0 auto}
+.qb-title{color:var(--gp);font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:7px}
+.qb-sub{color:rgba(255,255,255,.45);font-size:.76rem;margin-bottom:16px}
+.qb-fields{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end}
+.qb-field{display:flex;flex-direction:column;gap:4px;flex:1;min-width:130px}
+.qb-field label{font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.qb-input{padding:10px 13px;border-radius:9px;border:1.5px solid rgba(255,255,255,.12);background:rgba(255,255,255,.08);color:white;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border .18s;width:100%}
 .qb-input:focus{border-color:var(--gl)}
 .qb-input option{background:#1a3a2a;color:white}
-.qb-btn{padding:11px 22px;background:var(--gl);color:var(--gd);border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .18s;flex-shrink:0;align-self:flex-end}
+.qb-btn{padding:11px 20px;background:var(--gl);color:var(--gd);border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .18s;flex-shrink:0;align-self:flex-end}
 .qb-btn:hover{background:var(--gp)}
+.qb-btn:disabled{opacity:.5;cursor:default}
 
-/* RESULTS TABLE */
-.qb-results{display:none;margin-top:22px}
+/* Results */
+.qb-results{display:none;margin-top:20px}
 .qb-results.show{display:block}
-.qb-results-title{color:rgba(255,255,255,.7);font-size:.8rem;margin-bottom:10px;font-weight:500}
+.qb-results-title{color:rgba(255,255,255,.65);font-size:.78rem;margin-bottom:10px}
 .qb-results-title strong{color:var(--gp)}
-.qb-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.qb-table th{text-align:left;padding:8px 10px;color:rgba(255,255,255,.4);font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1)}
-.qb-table td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.85);vertical-align:middle}
-.qb-table tr:hover td{background:rgba(255,255,255,.04)}
-.qb-table .course-name{font-weight:600;color:white}
-.qb-table .cost-cell{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--gp)}
-.qb-table .cost-na{color:var(--muted);font-size:.78rem}
-.qb-table .avail-yes{color:#52b788}
-.qb-table .avail-no{color:#e74c3c}
-.qb-table .avail-check{color:var(--sandd)}
-.btn-tee{display:inline-flex;align-items:center;gap:4px;padding:5px 12px;background:var(--gm);color:white;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s;white-space:nowrap}
-.btn-tee:hover{background:var(--gl)}
-.btn-tee.disabled{background:rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:default;pointer-events:none}
-.qb-note{margin-top:12px;padding:10px 14px;background:rgba(255,255,255,.05);border-radius:8px;border-left:3px solid var(--sandd);color:rgba(255,255,255,.55);font-size:.75rem;line-height:1.5}
 
-/* SUBURB BAR */
-.suburb-bar{background:var(--sand);border-bottom:1px solid var(--sandd);padding:18px 24px}
+/* Course result cards */
+.qb-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.qb-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;transition:background .15s}
+.qb-card:hover{background:rgba(255,255,255,.09)}
+.qb-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.qb-course-name{font-weight:600;color:white;font-size:.88rem;line-height:1.2}
+.qb-course-sub{font-size:.68rem;color:rgba(255,255,255,.35);margin-top:2px}
+.qb-live-badge{font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+.qb-live-badge.live{background:rgba(82,183,136,.2);color:var(--gl);border:1px solid rgba(82,183,136,.3)}
+.qb-live-badge.static{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.1)}
+.qb-live-badge.error{background:rgba(192,57,43,.2);color:#e74c3c;border:1px solid rgba(192,57,43,.3)}
+
+/* Day access */
+.qb-access{font-size:.75rem;margin-bottom:8px}
+.qb-access.ok{color:var(--gl)}
+.qb-access.no{color:#e74c3c}
+.qb-access.limited{color:var(--sandd)}
+
+/* Live tee times */
+.qb-times-wrap{margin-bottom:10px}
+.qb-times-label{font-size:.68rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.qb-times{display:flex;flex-wrap:wrap;gap:4px}
+.qb-time-chip{padding:4px 9px;border-radius:6px;font-size:.74rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .15s}
+.qb-time-chip.avail{background:rgba(82,183,136,.18);color:var(--gl);border:1px solid rgba(82,183,136,.35)}
+.qb-time-chip.avail:hover{background:rgba(82,183,136,.35)}
+.qb-time-chip.taken{background:rgba(255,255,255,.05);color:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.08);cursor:default}
+.qb-times-loading{font-size:.76rem;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:6px}
+.qb-times-loading::before{content:'';display:inline-block;width:10px;height:10px;border:2px solid rgba(255,255,255,.2);border-top-color:var(--gl);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.qb-no-times{font-size:.76rem;color:rgba(255,255,255,.35);font-style:italic}
+
+/* Cost */
+.qb-cost-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.qb-cost{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--gp)}
+.qb-cost-label{font-size:.68rem;color:rgba(255,255,255,.35)}
+.qb-cost-na{font-size:.76rem;color:rgba(255,255,255,.35);font-style:italic}
+
+/* Book btn */
+.qb-book-btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;background:var(--gm);color:white;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background .15s;white-space:nowrap;width:100%;justify-content:center}
+.qb-book-btn:hover{background:var(--gl);color:var(--gd)}
+.qb-book-btn.disabled{background:rgba(255,255,255,.08);color:rgba(255,255,255,.3);cursor:default;pointer-events:none}
+.qb-book-btn.phone{background:rgba(232,201,138,.15);color:var(--sandd);border:1px solid rgba(232,201,138,.3)}
+.qb-book-btn.phone:hover{background:rgba(232,201,138,.25)}
+
+.qb-note{margin-top:14px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:8px;border-left:3px solid var(--sandd);color:rgba(255,255,255,.45);font-size:.73rem;line-height:1.55}
+.qb-note strong{color:var(--sandd)}
+
+/* SUBURB */
+.suburb-bar{background:var(--sand);border-bottom:1px solid var(--sandd);padding:16px 24px}
 .suburb-inner{max-width:1100px;margin:0 auto}
-.suburb-label{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
-.suburb-row{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.suburb-input{padding:9px 15px;border-radius:9px;border:1.5px solid var(--sandd);background:white;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--ink);flex:1;min-width:180px;max-width:320px;outline:none;transition:border .18s}
+.suburb-label{font-size:.73rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
+.suburb-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.suburb-input{padding:9px 14px;border-radius:9px;border:1.5px solid var(--sandd);background:white;font-family:'DM Sans',sans-serif;font-size:.86rem;color:var(--ink);flex:1;min-width:180px;max-width:300px;outline:none;transition:border .18s}
 .suburb-input:focus{border-color:var(--gm)}
-.suburb-btn{padding:9px 18px;background:var(--gd);color:white;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:600;cursor:pointer;transition:background .18s}
+.suburb-btn{padding:9px 16px;background:var(--gd);color:white;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .18s}
 .suburb-btn:hover{background:var(--gm)}
-.suburb-clear{padding:9px 14px;background:transparent;color:var(--gm);border:1.5px solid var(--sandd);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.84rem;cursor:pointer}
-.suburb-status{font-size:.78rem;color:var(--muted);margin-top:5px;min-height:16px}
+.suburb-clear{padding:9px 13px;background:transparent;color:var(--gm);border:1.5px solid var(--sandd);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.82rem;cursor:pointer}
+.suburb-status{font-size:.76rem;color:var(--muted);margin-top:5px;min-height:16px}
 .suburb-status.ok{color:var(--gm)}.suburb-status.err{color:var(--red)}
 
 /* FILTERS */
-.filters-wrap{background:white;border-bottom:1px solid var(--border);padding:14px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.filters{max-width:1100px;margin:0 auto;display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-.filter-label{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.filters-wrap{background:white;border-bottom:1px solid var(--border);padding:13px 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.filters{max-width:1100px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:.68rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
 .filter-group{display:flex;gap:4px;flex-wrap:wrap}
-.chip{padding:5px 13px;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .18s;white-space:nowrap}
+.chip{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .18s;white-space:nowrap}
 .chip:hover{border-color:var(--gm);color:var(--gm)}
 .chip.active{background:var(--gd);border-color:var(--gd);color:white}
-.sort-select{padding:6px 13px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;margin-left:auto;outline:none;color:var(--ink)}
+.sort-select{padding:6px 12px;border-radius:20px;border:1.5px solid var(--border);background:white;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:500;cursor:pointer;margin-left:auto;outline:none;color:var(--ink)}
 .sort-select:focus{border-color:var(--gm)}
 
 /* MAIN */
-.main{max-width:1100px;margin:0 auto;padding:24px 24px 60px}
-.results-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px;flex-wrap:wrap;gap:5px}
-.results-count{font-size:.8rem;color:var(--muted)}
+.main{max-width:1100px;margin:0 auto;padding:22px 24px 56px}
+.results-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:4px}
+.results-count{font-size:.78rem;color:var(--muted)}
 .results-count strong{color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
-
-/* CARDS */
-.card{background:var(--card);border-radius:15px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;animation:fadeUp .35s ease both}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(305px,1fr));gap:15px}
+.card{background:var(--card);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;animation:fadeUp .35s ease both}
 .card:hover{box-shadow:var(--shadowh);transform:translateY(-3px)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.card-header{padding:16px 17px 11px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:9px}
-.card-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--gd);line-height:1.2}
-.card-sub{font-size:.72rem;color:var(--muted);margin-top:2px}
-.badge{flex-shrink:0;font-size:.65rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:9px}
+.card-header{padding:15px 16px 10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card-name{font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:700;color:var(--gd);line-height:1.2}
+.card-sub{font-size:.7rem;color:var(--muted);margin-top:2px}
+.badge{flex-shrink:0;font-size:.63rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 8px;border-radius:8px}
 .badge-public{background:var(--fw);color:var(--gm)}
 .badge-semi{background:var(--sand);color:#7a5a1a}
 .badge-private{background:#f0e0f0;color:#6a3a6a}
-.card-body{padding:13px 17px;flex:1;display:flex;flex-direction:column;gap:10px}
-.pills{display:flex;gap:6px;flex-wrap:wrap}
-.pill{display:flex;align-items:center;gap:3px;font-size:.72rem;color:var(--muted)}
+.card-body{padding:12px 16px;flex:1;display:flex;flex-direction:column;gap:9px}
+.pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{display:flex;align-items:center;gap:3px;font-size:.7rem;color:var(--muted)}
 .rating-row{display:flex;align-items:center;gap:5px}
-.stars{color:var(--star);font-size:.82rem;letter-spacing:1px}
-.rating-num{font-size:.8rem;font-weight:600}
-.rating-ct{font-size:.7rem;color:var(--muted)}
-.dist-box{background:var(--fw);border-radius:9px;padding:8px 12px;display:flex;align-items:center;gap:8px}
+.stars{color:var(--star);font-size:.8rem;letter-spacing:1px}
+.rating-num{font-size:.78rem;font-weight:600}
+.rating-ct{font-size:.68rem;color:var(--muted)}
+.dist-box{background:var(--fw);border-radius:8px;padding:7px 11px;display:flex;align-items:center;gap:7px}
 .dist-box.plain{background:#f5f5f3}
-.dist-text{font-size:.8rem;font-weight:600;color:var(--gd)}
-.dist-sub{font-size:.7rem;color:var(--muted)}
-.fees-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.fee-box{background:var(--fw);border-radius:8px;padding:8px 10px;text-align:center}
+.dist-text{font-size:.78rem;font-weight:600;color:var(--gd)}
+.dist-sub{font-size:.68rem;color:var(--muted)}
+.fees-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.fee-box{background:var(--fw);border-radius:7px;padding:7px 9px;text-align:center}
 .fee-box.hl{background:var(--gd)}
-.fee-label{font-size:.62rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:1px}
+.fee-label{font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:1px}
 .fee-box.hl .fee-label{color:var(--gp)}
-.fee-amount{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gd)}
+.fee-amount{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--gd)}
 .fee-box.hl .fee-amount{color:white}
-.fee-sub{font-size:.64rem;color:var(--muted)}
+.fee-sub{font-size:.62rem;color:var(--muted)}
 .fee-box.hl .fee-sub{color:var(--gp)}
-.call-box{background:var(--sand);border-radius:8px;padding:9px 12px;display:flex;align-items:center;gap:8px}
-.call-text{font-size:.76rem;font-weight:600}
-.call-sub{font-size:.7rem;color:var(--muted)}
-.day-row{display:flex;gap:5px;flex-wrap:wrap;font-size:.7rem}
-.day-tag{padding:2px 7px;border-radius:5px;font-weight:500}
+.call-box{background:var(--sand);border-radius:7px;padding:8px 11px;display:flex;align-items:center;gap:7px}
+.call-text{font-size:.74rem;font-weight:600}
+.call-sub{font-size:.68rem;color:var(--muted)}
+.day-row{display:flex;gap:4px;flex-wrap:wrap;font-size:.68rem}
+.day-tag{padding:2px 6px;border-radius:5px;font-weight:500}
 .day-yes{background:#d8f3dc;color:#1a5c35}
 .day-no{background:#fdecea;color:#c0392b}
 .amenities{display:flex;flex-wrap:wrap;gap:3px}
-.atag{font-size:.68rem;padding:2px 7px;border-radius:6px;background:#f0f7f2;color:var(--gm);border:1px solid #c5e5cd}
-.notes-text{font-size:.73rem;color:var(--muted);line-height:1.5;font-style:italic}
-.twilight-text{font-size:.73rem;color:#2d6a4f;background:#d8f3dc;padding:4px 8px;border-radius:6px}
-.card-footer{padding:11px 17px;border-top:1px solid var(--border);display:flex;gap:6px}
-.btn-book{flex:1;padding:9px 13px;background:var(--gd);color:white;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:background .18s}
+.atag{font-size:.66rem;padding:2px 6px;border-radius:5px;background:#f0f7f2;color:var(--gm);border:1px solid #c5e5cd}
+.notes-text{font-size:.71rem;color:var(--muted);line-height:1.5;font-style:italic}
+.twilight-text{font-size:.71rem;color:#2d6a4f;background:#d8f3dc;padding:3px 7px;border-radius:5px}
+.card-footer{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:5px}
+.btn-book{flex:1;padding:8px 12px;background:var(--gd);color:white;border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:4px;transition:background .18s}
 .btn-book:hover{background:var(--gm)}
-.btn-phone{padding:9px 12px;background:transparent;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.9rem;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .18s;color:var(--ink)}
+.btn-phone{padding:8px 11px;background:transparent;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-size:.88rem;text-decoration:none;display:inline-flex;align-items:center;transition:border-color .18s;color:var(--ink)}
 .btn-phone:hover{border-color:var(--gm)}
-.empty{text-align:center;padding:50px 20px;color:var(--muted);grid-column:1/-1}
-footer{background:var(--gd);color:rgba(255,255,255,.45);text-align:center;padding:22px;font-size:.74rem;line-height:1.8}
+.empty{text-align:center;padding:46px 20px;color:var(--muted);grid-column:1/-1}
+footer{background:var(--gd);color:rgba(255,255,255,.42);text-align:center;padding:20px;font-size:.72rem;line-height:1.8}
 footer a{color:var(--gp);text-decoration:none}
 @media(max-width:600px){
-  .filters{flex-direction:column;align-items:flex-start}
+  .filters,.suburb-row,.qb-fields{flex-direction:column;align-items:stretch}
   .sort-select{margin-left:0}
-  .suburb-row{flex-direction:column;align-items:stretch}
-  .qb-fields{flex-direction:column}
-  .qb-table{font-size:.75rem}
+  .qb-cards{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
 <section class="hero">
   <span class="hero-flag">⛳ Brisbane Golf Finder</span>
   <h1>Find Your <em>Perfect</em> Tee Time</h1>
-  <p>Compare green fees, Google ratings &amp; distance across <strong id="totalCount" style="color:var(--gp)">20</strong> Brisbane courses. Enter a date &amp; golfers below for instant booking links.</p>
+  <p>Compare fees, ratings &amp; distances across 20 Brisbane courses. Live tee times for select courses — deep-links for the rest.</p>
   <div class="hero-stats">
     <div class="hero-stat"><strong>20</strong><span>Courses Listed</span></div>
     <div class="hero-stat"><strong>$32</strong><span>From (18 holes)</span></div>
-    <div class="hero-stat"><strong>60 min</strong><span>Max from CBD</span></div>
+    <div class="hero-stat"><strong>Live ⚡</strong><span>Redcliffe times</span></div>
   </div>
 </section>
 
-<!-- QUICK BOOK PANEL -->
+<!-- QUICK BOOK -->
 <div class="qb-wrap">
   <div class="qb-inner">
-    <div class="qb-title">🗓️ Quick Book — Find Tee Times by Date</div>
-    <div class="qb-sub">Select a date and number of golfers — we'll show estimated costs and open booking pages pre-filtered for you</div>
+    <div class="qb-title">🗓️ Find Tee Times by Date</div>
+    <div class="qb-sub">Live times for Redcliffe (MiClub) · Direct booking links for all other courses</div>
     <div class="qb-fields">
       <div class="qb-field">
         <label>Date</label>
         <input type="date" class="qb-input" id="qbDate">
       </div>
-      <div class="qb-field" style="max-width:130px">
+      <div class="qb-field" style="max-width:120px">
         <label>Golfers</label>
         <select class="qb-input" id="qbPlayers">
           <option value="1">1 golfer</option>
@@ -188,31 +216,23 @@ footer a{color:var(--gp);text-decoration:none}
           <option value="4">4 golfers</option>
         </select>
       </div>
-      <div class="qb-field" style="max-width:130px">
+      <div class="qb-field" style="max-width:120px">
         <label>Holes</label>
         <select class="qb-input" id="qbHoles">
           <option value="9">9 holes</option>
           <option value="18" selected>18 holes</option>
         </select>
       </div>
-      <button class="qb-btn" id="qbSearch">🔍 Find Tee Times</button>
+      <button class="qb-btn" id="qbSearch">⚡ Find Tee Times</button>
     </div>
 
     <div class="qb-results" id="qbResults">
       <div class="qb-results-title" id="qbResultsTitle"></div>
-      <table class="qb-table">
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>Day Access</th>
-            <th>Est. Cost (walk)</th>
-            <th>Booking</th>
-          </tr>
-        </thead>
-        <tbody id="qbTableBody"></tbody>
-      </table>
+      <div class="qb-cards" id="qbCards"></div>
       <div class="qb-note">
-        <strong style="color:var(--sandd)">⚠️ How this works:</strong> Costs shown are estimated from published green fees × number of golfers. Clicking "Book" opens that course's live tee sheet for your date where possible — actual availability and prices may differ. Always confirm with the club before arrival. Courses marked <em>call to book</em> don't have public online booking.
+        <strong>⚡ Live</strong> = real-time tee sheet fetched via Supabase · 
+        <strong style="color:rgba(255,255,255,.5)">Static</strong> = opens course booking page with date pre-filled where supported · 
+        Tap a time chip to open that specific booking slot · Costs are estimated from published fees × golfers
       </div>
     </div>
   </div>
@@ -221,7 +241,7 @@ footer a{color:var(--gp);text-decoration:none}
 <!-- SUBURB BAR -->
 <div class="suburb-bar">
   <div class="suburb-inner">
-    <span class="suburb-label">📍 Enter your suburb to see driving times</span>
+    <span class="suburb-label">📍 Enter your suburb for driving times</span>
     <div class="suburb-row">
       <input type="text" class="suburb-input" id="suburbInput" placeholder="e.g. Kangaroo Point, Chermside…">
       <button class="suburb-btn" id="suburbBtn">Calculate Distances</button>
@@ -267,532 +287,218 @@ footer a{color:var(--gp);text-decoration:none}
 </main>
 
 <footer>
-  <p>Brisbane Golf Finder · Fees sourced from course websites, June 2026 · Google ratings approximate · Always confirm fees, dress code &amp; availability directly with the course.</p>
+  <p>Brisbane Golf Finder · Fees sourced from course websites, June 2026 · Live times via Supabase Edge Function · Always confirm directly with the course.</p>
   <p>Built by <a href="https://benjy333.github.io/Bens-Trivia" target="_blank">Benjy333</a> · Not affiliated with any golf club</p>
 </footer>
 
 <script>
-// ─── COURSE DATA ────────────────────────────────────────────────────────────
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://xxnseqqfinmzywuhdhlu.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable__gOU26b5qIXBtLXyTNljZw_BJ3Di5fl';
+const EDGE_FN_URL = `${SUPABASE_URL}/functions/v1/tee-times`;
+
+// ─── COURSE DATA ─────────────────────────────────────────────────────────────
 const courses = [
-  {id:1,name:"St Lucia Golf Links",suburb:"St Lucia",type:"public",holes:18,par:69,
-   distCBDkm:8,driveCBDmin:15,lat:-27.5002,lng:152.9914,
-   googleRating:4.4,googleReviews:1100,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:32,fee18:51,cart9:24,cart18:29,
-   twilight:"$25 walk / $43 cart — 3:30–4:30pm",
-   sat:true,sun:true,
-   amenities:["Riverside views","Pro Shop","Simulator","Putt Putt","Bar"],
-   notes:"100-year anniversary in 2026. Book up to 14 days ahead. Walk-ins welcome.",
-   bookingUrl:"https://www.hillstonestlucia.com.au/golf/fees-and-booking/",
-   bookingType:"web",phone:"07 3870 3433",dressCode:false},
-
-  {id:2,name:"Minnippi Golf & Range",suburb:"Cannon Hill",type:"public",holes:18,par:72,
-   distCBDkm:12,driveCBDmin:20,lat:-27.4614,lng:153.0930,
-   googleRating:4.5,googleReviews:820,
-   walkable:true,carts:true,drivingRange:true,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:true,sun:true,
-   amenities:["No bunkers","20-Bay Range","Cooee Café","Electric carts"],
-   notes:"Brisbane's newest public course (2023). No bunkers. All-inclusive, no dress code. 3/6/9/18 hole options.",
-   bookingUrl:"https://minnippipublicgolfcourse.com.au/",
-   bookingType:"web",phone:null,dressCode:false},
-
-  {id:3,name:"Pacific Golf Club",suburb:"Carindale",type:"semi",holes:18,par:72,
-   distCBDkm:14,driveCBDmin:22,lat:-27.5275,lng:153.1013,
-   googleRating:4.2,googleReviews:680,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Par 3 Course","Simulators","Mini Golf","Pro Shop"],
-   notes:"Collared shirt required. Mon–Fri & Sunday open to visitors. Saturday members only. Register online first, then book tee times.",
-   bookingUrl:"https://www.pacificgolf.com.au/cms/public-bookings/",
-   bookingType:"web",phone:"07 3343 0887",dressCode:true},
-
-  {id:4,name:"Ashgrove Golf Club",suburb:"The Gap",type:"semi",holes:18,par:68,
-   distCBDkm:8,driveCBDmin:16,lat:-27.4677,lng:152.9353,
-   googleRating:4.3,googleReviews:420,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Native bushland","Hilly terrain","Restaurant","Bus stop outside"],
-   notes:"Closest 18-hole course to the CBD by road. Tight, tree-lined fairways. Visitors Mon–Fri & Sundays. Collared shirt required.",
-   bookingUrl:"https://www.ashgrovegolf.com.au/our-club/visitor-information",
-   bookingType:"phone",phone:"07 3366 1842",dressCode:true},
-
-  {id:5,name:"Riverlakes Golf & Country Club",suburb:"Cornubia",type:"semi",holes:18,par:70,
-   distCBDkm:28,driveCBDmin:32,lat:-27.6572,lng:153.1158,
-   googleRating:4.3,googleReviews:540,
-   walkable:true,carts:true,drivingRange:true,restaurant:false,
-   fee9:33,fee18:43,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Aquatic Driving Range","Logan River views","Championship standard"],
-   notes:"Mon–Thu rates shown ($43). Fri–Sun rates higher — call to confirm. Collared shirt required. 25 min from CBD and Gold Coast.",
-   bookingUrl:"https://riverlakes-golf-course.book-v2.teeitup.golf/",
-   bookingType:"teeitup",phone:"07 3287 6288",dressCode:true},
-
-  {id:6,name:"Windaroo Lakes Golf Club",suburb:"Windaroo",type:"semi",holes:18,par:72,
-   distCBDkm:42,driveCBDmin:45,lat:-27.7489,lng:153.1278,
-   googleRating:4.5,googleReviews:610,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Albert River","Snake Gully Par 4","Electric carts","Refurbished Clubhouse"],
-   notes:"Former Queensland Open host. Famous 437m double water-carry par 4. No jeans — collared shirt required.",
-   bookingUrl:"https://windaroolakes.com.au/",
-   bookingType:"phone",phone:null,dressCode:true},
-
-  {id:7,name:"Oxley Golf Club",suburb:"Oxley",type:"semi",holes:18,par:null,
-   distCBDkm:15,driveCBDmin:22,lat:-27.5623,lng:152.9648,
-   googleRating:4.1,googleReviews:290,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Parkland course","Clubhouse & bar","Visitors welcome weekdays"],
-   notes:"All bookings via phone only — no online system. Visitors welcome Mon–Fri and some Sundays.",
-   bookingUrl:"https://www.oxleygolfcomplex.com.au/",
-   bookingType:"phone",phone:"07 3379 7836",dressCode:true},
-
-  {id:8,name:"Meadowbrook Golf Club",suburb:"Meadowbrook",type:"semi",holes:18,par:null,
-   distCBDkm:25,driveCBDmin:28,lat:-27.6617,lng:153.0672,
-   googleRating:4.0,googleReviews:310,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Logan area","Visitors welcome","Clubhouse"],
-   notes:"Formerly Logan City Golf Club. Visitors welcome on weekdays and some weekends.",
-   bookingUrl:"https://www.meadowbrookgolfclub.com.au/",
-   bookingType:"phone",phone:null,dressCode:false},
-
-  {id:9,name:"Redcliffe Golf Club",suburb:"Clontarf",type:"semi",holes:18,par:71,
-   distCBDkm:35,driveCBDmin:38,lat:-27.2604,lng:153.1258,
-   googleRating:4.5,googleReviews:720,
-   walkable:true,carts:false,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Coastal views","Bayside","Drought-proof","Clubhouse deck","Ocean breezes"],
-   notes:"⚠️ Course restoration underway — some temp greens, carts NOT permitted. Book via MiClub online.",
-   bookingUrl:"https://www.redcliffegolf.com/guests/bookings/ViewPublicCalendar.msp?booking_resource_id=3000000",
-   bookingType:"miclub",phone:"07 3284 2957",dressCode:false},
-
-  {id:10,name:"McLeod Country Golf Club",suburb:"Mount Ommaney",type:"semi",holes:18,par:71,
-   distCBDkm:16,driveCBDmin:22,lat:-27.5509,lng:152.924,
-   googleRating:4.3,googleReviews:890,
-   walkable:true,carts:true,drivingRange:true,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Driving Range","Bunker Practice","Bar & Bistro","On GolfNow"],
-   notes:"Top 10 Brisbane per TripAdvisor. Slope 132. Collared shirt required. Book via GolfNow.",
-   bookingUrl:"https://www.golfnow.com/tee-times/facility/15387-mcleod-country-golf-club/search",
-   bookingType:"golfnow",phone:"07 3376 3922",dressCode:true},
-
-  {id:11,name:"Keperra Country Golf Club",suburb:"Keperra",type:"semi",holes:27,par:null,
-   distCBDkm:12,driveCBDmin:18,lat:-27.4278,lng:152.9444,
-   googleRating:4.4,googleReviews:560,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["27 holes","Keperra Bowl venue","Home of Cameron Smith & Jason Day"],
-   notes:"Prestigious 27-hole course. Strict dress: collared shirt tucked in, white socks. $40 visitor weekday rate.",
-   bookingUrl:"https://www.keperragolf.com.au/",
-   bookingType:"phone",phone:null,dressCode:true},
-
-  {id:12,name:"Nudgee Golf Club",suburb:"Nudgee",type:"semi",holes:36,par:72,
-   distCBDkm:13,driveCBDmin:18,lat:-27.3625,lng:153.0783,
-   googleRating:4.3,googleReviews:490,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["36 holes","Near airport","Coastal breeze","Course masterplan underway"],
-   notes:"Closest club to Brisbane Airport. 27 of 36 holes open during restoration. Weekday ~$40, weekend ~$50.",
-   bookingUrl:"https://www.nudgeegolf.com.au/",
-   bookingType:"phone",phone:null,dressCode:true},
-
-  {id:13,name:"Carbrook Golf Club",suburb:"Carbrook",type:"semi",holes:18,par:null,
-   distCBDkm:32,driveCBDmin:35,lat:-27.6792,lng:153.2008,
-   googleRating:4.3,googleReviews:1200,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Shark lake (6th hole)","Logan River views","Clubhouse"],
-   notes:"Famous for bull sharks in the lake adjacent to the 6th hole — visible from the tee. A unique Brisbane experience.",
-   bookingUrl:"https://www.carbrookgolf.com.au/",
-   bookingType:"phone",phone:null,dressCode:false},
-
-  {id:14,name:"Bulimba Golf Club",suburb:"Bulimba",type:"public",holes:18,par:null,
-   distCBDkm:5,driveCBDmin:10,lat:-27.4650,lng:153.0616,
-   googleRating:3.9,googleReviews:230,
-   walkable:true,carts:false,drivingRange:false,restaurant:false,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:true,sun:true,
-   amenities:["Closest to CBD","Walk-on","Groups under 8 no booking needed"],
-   notes:"Most convenient to inner Brisbane. Compact layout — ideal for a quick casual round. Groups under 8 no booking needed.",
-   bookingUrl:"https://www.bulimbagolfclub.com.au/",
-   bookingType:"walkin",phone:null,dressCode:false},
-
-  {id:15,name:"Howeston Golf Course",suburb:"Capalaba",type:"public",holes:27,par:null,
-   distCBDkm:20,driveCBDmin:27,lat:-27.5325,lng:153.2008,
-   googleRating:4.0,googleReviews:390,
-   walkable:true,carts:true,drivingRange:false,restaurant:false,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:true,sun:true,
-   amenities:["27 holes","Pay & Play","No booking required","Bayside"],
-   notes:"Genuine pay-and-play — just show up and tee off. Great for beginners. 27 holes. Contact for current fees.",
-   bookingUrl:"https://howeston.com.au/",
-   bookingType:"walkin",phone:null,dressCode:false},
-
-  {id:16,name:"Wynnum Golf Club",suburb:"Wynnum",type:"semi",holes:18,par:null,
-   distCBDkm:18,driveCBDmin:25,lat:-27.4571,lng:153.1620,
-   googleRating:4.2,googleReviews:350,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:45,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:true,
-   amenities:["Bayside","Est. 1922","Visitors welcome weekdays","Clubhouse"],
-   notes:"Established 1922. Weekday $45, weekend ~$47. Visitors Mon–Fri & some Sundays.",
-   bookingUrl:"https://www.wynnum.golf/",
-   bookingType:"phone",phone:null,dressCode:true},
-
-  {id:17,name:"Gold Creek Country Club",suburb:"Brookfield",type:"semi",holes:18,par:null,
-   distCBDkm:18,driveCBDmin:25,lat:-27.4968,lng:152.8950,
-   googleRating:4.3,googleReviews:480,
-   walkable:true,carts:true,drivingRange:true,restaurant:true,
-   fee9:40,fee18:65,cart9:25,cart18:50,
-   twilight:null,sat:false,sun:true,
-   amenities:["Hinterland","Country Club","Driving Range","Restaurant"],
-   notes:"Weekday 18h $65, weekend $75. 9h $40/$45. Cart $50 for 18h. Scenic western Brisbane.",
-   bookingUrl:"https://goldcreekcountryclub.com.au/",
-   bookingType:"phone",phone:null,dressCode:true},
-
-  {id:18,name:"Indooroopilly Golf Club",suburb:"Indooroopilly",type:"private",holes:36,par:null,
-   distCBDkm:8,driveCBDmin:14,lat:-27.5025,lng:152.9769,
-   googleRating:4.6,googleReviews:920,
-   walkable:true,carts:true,drivingRange:true,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:false,
-   amenities:["36 holes","Brisbane River","Championship","Members & reciprocal only"],
-   notes:"Private club — visitors only as guests of members or via reciprocal club arrangement.",
-   bookingUrl:"https://www.igc.com.au/",
-   bookingType:"members",phone:"07 3870 9000",dressCode:true},
-
-  {id:19,name:"Brookwater Golf & Country Club",suburb:"Springfield",type:"private",holes:18,par:72,
-   distCBDkm:35,driveCBDmin:40,lat:-27.6628,lng:152.8886,
-   googleRating:4.6,googleReviews:310,
-   walkable:false,carts:true,drivingRange:true,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:false,sun:false,
-   amenities:["Greg Norman design","Championship","Country Club"],
-   notes:"Greg Norman Signature Course. Private — member, resort guest, or reciprocal access only.",
-   bookingUrl:"https://www.brookwater.com.au/golf/",
-   bookingType:"members",phone:"07 3814 6000",dressCode:true},
-
-  {id:20,name:"Brisbane River Golf Club",suburb:"Karana Downs",type:"public",holes:18,par:null,
-   distCBDkm:30,driveCBDmin:35,lat:-27.5644,lng:152.8269,
-   googleRating:4.1,googleReviews:260,
-   walkable:true,carts:true,drivingRange:false,restaurant:true,
-   fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,
-   sat:true,sun:true,
-   amenities:["Public access","River setting","Relaxed atmosphere"],
-   notes:"Public course on the Brisbane River at Karana Downs. Scenic and relaxed for western Brisbane golfers.",
-   bookingUrl:"https://www.brisbanerivergolf.com.au/",
-   bookingType:"phone",phone:"07 3201 0833",dressCode:false},
+  {id:1,name:"St Lucia Golf Links",suburb:"St Lucia",type:"public",holes:18,par:69,distCBDkm:8,driveCBDmin:15,lat:-27.5002,lng:152.9914,googleRating:4.4,googleReviews:1100,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:32,fee18:51,cart9:24,cart18:29,twilight:"$25 walk / $43 cart — 3:30–4:30pm",sat:true,sun:true,amenities:["Riverside views","Pro Shop","Simulator","Putt Putt","Bar"],notes:"100-year anniversary in 2026. Book up to 14 days ahead. Walk-ins welcome.",bookingUrl:"https://www.hillstonestlucia.com.au/golf/fees-and-booking/",bookingType:"web",phone:"07 3870 3433",dressCode:false,liveId:null},
+  {id:2,name:"Minnippi Golf & Range",suburb:"Cannon Hill",type:"public",holes:18,par:72,distCBDkm:12,driveCBDmin:20,lat:-27.4614,lng:153.0930,googleRating:4.5,googleReviews:820,walkable:true,carts:true,drivingRange:true,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:true,sun:true,amenities:["No bunkers","20-Bay Range","Cooee Café","Electric carts"],notes:"Brisbane's newest public course (2023). No bunkers. All-inclusive, no dress code.",bookingUrl:"https://minnippipublicgolfcourse.com.au/",bookingType:"web",phone:null,dressCode:false,liveId:null},
+  {id:3,name:"Pacific Golf Club",suburb:"Carindale",type:"semi",holes:18,par:72,distCBDkm:14,driveCBDmin:22,lat:-27.5275,lng:153.1013,googleRating:4.2,googleReviews:680,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Par 3 Course","Simulators","Mini Golf","Pro Shop"],notes:"Collared shirt required. Mon–Fri & Sunday open to visitors. Saturday members only.",bookingUrl:"https://www.pacificgolf.com.au/cms/public-bookings/",bookingType:"web",phone:"07 3343 0887",dressCode:true,liveId:null},
+  {id:4,name:"Ashgrove Golf Club",suburb:"The Gap",type:"semi",holes:18,par:68,distCBDkm:8,driveCBDmin:16,lat:-27.4677,lng:152.9353,googleRating:4.3,googleReviews:420,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Native bushland","Hilly terrain","Restaurant","Bus stop outside"],notes:"Closest 18-hole course to CBD. Tight, tree-lined fairways. Visitors Mon–Fri & Sundays.",bookingUrl:"https://www.ashgrovegolf.com.au/our-club/visitor-information",bookingType:"phone",phone:"07 3366 1842",dressCode:true,liveId:null},
+  {id:5,name:"Riverlakes Golf & Country Club",suburb:"Cornubia",type:"semi",holes:18,par:70,distCBDkm:28,driveCBDmin:32,lat:-27.6572,lng:153.1158,googleRating:4.3,googleReviews:540,walkable:true,carts:true,drivingRange:true,restaurant:false,fee9:33,fee18:43,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Aquatic Driving Range","Logan River views","Championship standard"],notes:"Mon–Thu $43. Fri–Sun higher — call to confirm. Collared shirt required.",bookingUrl:"https://riverlakes-golf-course.book-v2.teeitup.golf/",bookingType:"teeitup",phone:"07 3287 6288",dressCode:true,liveId:null},
+  {id:6,name:"Windaroo Lakes Golf Club",suburb:"Windaroo",type:"semi",holes:18,par:72,distCBDkm:42,driveCBDmin:45,lat:-27.7489,lng:153.1278,googleRating:4.5,googleReviews:610,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Albert River","Snake Gully Par 4","Electric carts"],notes:"Former QLD Open host. Famous 437m double water-carry par 4. Dress code enforced.",bookingUrl:"https://windaroolakes.com.au/",bookingType:"phone",phone:null,dressCode:true,liveId:null},
+  {id:7,name:"Oxley Golf Club",suburb:"Oxley",type:"semi",holes:18,par:null,distCBDkm:15,driveCBDmin:22,lat:-27.5623,lng:152.9648,googleRating:4.1,googleReviews:290,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Parkland course","Clubhouse & bar"],notes:"Phone bookings only — no online system. Visitors Mon–Fri and some Sundays.",bookingUrl:"https://www.oxleygolfcomplex.com.au/",bookingType:"phone",phone:"07 3379 7836",dressCode:true,liveId:null},
+  {id:8,name:"Meadowbrook Golf Club",suburb:"Meadowbrook",type:"semi",holes:18,par:null,distCBDkm:25,driveCBDmin:28,lat:-27.6617,lng:153.0672,googleRating:4.0,googleReviews:310,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Logan area","Visitors welcome","Clubhouse"],notes:"Formerly Logan City Golf Club. Visitors welcome weekdays and some weekends.",bookingUrl:"https://www.meadowbrookgolfclub.com.au/",bookingType:"phone",phone:null,dressCode:false,liveId:null},
+  {id:9,name:"Redcliffe Golf Club",suburb:"Clontarf",type:"semi",holes:18,par:71,distCBDkm:35,driveCBDmin:38,lat:-27.2604,lng:153.1258,googleRating:4.5,googleReviews:720,walkable:true,carts:false,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["⚡ LIVE tee times","Coastal views","Bayside","Drought-proof","Ocean breezes"],notes:"⚠️ Course restoration underway — temp greens, carts NOT permitted. Live tee times fetched below.",bookingUrl:"https://www.redcliffegolf.com/guests/bookings/ViewPublicCalendar.msp?booking_resource_id=3000000",bookingType:"miclub",phone:"07 3284 2957",dressCode:false,liveId:"redcliffe"},
+  {id:10,name:"McLeod Country Golf Club",suburb:"Mount Ommaney",type:"semi",holes:18,par:71,distCBDkm:16,driveCBDmin:22,lat:-27.5509,lng:152.924,googleRating:4.3,googleReviews:890,walkable:true,carts:true,drivingRange:true,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Driving Range","Bunker Practice","Bar & Bistro","On GolfNow"],notes:"Top 10 Brisbane per TripAdvisor. Slope 132. Collared shirt. Book via GolfNow.",bookingUrl:"https://www.golfnow.com/tee-times/facility/15387-mcleod-country-golf-club/search",bookingType:"golfnow",phone:"07 3376 3922",dressCode:true,liveId:null},
+  {id:11,name:"Keperra Country Golf Club",suburb:"Keperra",type:"semi",holes:27,par:null,distCBDkm:12,driveCBDmin:18,lat:-27.4278,lng:152.9444,googleRating:4.4,googleReviews:560,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["27 holes","Keperra Bowl","Home of Cameron Smith & Jason Day"],notes:"Prestigious 27-hole course. Strict dress: collared shirt tucked in, white socks.",bookingUrl:"https://www.keperragolf.com.au/",bookingType:"phone",phone:null,dressCode:true,liveId:null},
+  {id:12,name:"Nudgee Golf Club",suburb:"Nudgee",type:"semi",holes:36,par:72,distCBDkm:13,driveCBDmin:18,lat:-27.3625,lng:153.0783,googleRating:4.3,googleReviews:490,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:40,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["36 holes","Near airport","Coastal breeze","Course masterplan"],notes:"Closest club to Brisbane Airport. 27 of 36 holes open. Weekday ~$40, weekend ~$50.",bookingUrl:"https://www.nudgeegolf.com.au/",bookingType:"phone",phone:null,dressCode:true,liveId:null},
+  {id:13,name:"Carbrook Golf Club",suburb:"Carbrook",type:"semi",holes:18,par:null,distCBDkm:32,driveCBDmin:35,lat:-27.6792,lng:153.2008,googleRating:4.3,googleReviews:1200,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Shark lake (6th hole)","Logan River views","Clubhouse"],notes:"Famous for bull sharks visible from the 6th tee. A truly unique Brisbane experience.",bookingUrl:"https://www.carbrookgolf.com.au/",bookingType:"phone",phone:null,dressCode:false,liveId:null},
+  {id:14,name:"Bulimba Golf Club",suburb:"Bulimba",type:"public",holes:18,par:null,distCBDkm:5,driveCBDmin:10,lat:-27.4650,lng:153.0616,googleRating:3.9,googleReviews:230,walkable:true,carts:false,drivingRange:false,restaurant:false,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:true,sun:true,amenities:["Closest to CBD","Walk-on","Groups under 8 no booking"],notes:"Most convenient to inner Brisbane. Compact, casual layout. Groups under 8 need no booking.",bookingUrl:"https://www.bulimbagolfclub.com.au/",bookingType:"walkin",phone:null,dressCode:false,liveId:null},
+  {id:15,name:"Howeston Golf Course",suburb:"Capalaba",type:"public",holes:27,par:null,distCBDkm:20,driveCBDmin:27,lat:-27.5325,lng:153.2008,googleRating:4.0,googleReviews:390,walkable:true,carts:true,drivingRange:false,restaurant:false,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:true,sun:true,amenities:["27 holes","Pay & Play","No booking required","Bayside"],notes:"Genuine pay-and-play — just show up and tee off. Great for beginners.",bookingUrl:"https://howeston.com.au/",bookingType:"walkin",phone:null,dressCode:false,liveId:null},
+  {id:16,name:"Wynnum Golf Club",suburb:"Wynnum",type:"semi",holes:18,par:null,distCBDkm:18,driveCBDmin:25,lat:-27.4571,lng:153.1620,googleRating:4.2,googleReviews:350,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:45,cart9:null,cart18:null,twilight:null,sat:false,sun:true,amenities:["Bayside","Est. 1922","Visitors welcome weekdays"],notes:"Established 1922. Weekday $45, weekend ~$47. Visitors Mon–Fri & some Sundays.",bookingUrl:"https://www.wynnum.golf/",bookingType:"phone",phone:null,dressCode:true,liveId:null},
+  {id:17,name:"Gold Creek Country Club",suburb:"Brookfield",type:"semi",holes:18,par:null,distCBDkm:18,driveCBDmin:25,lat:-27.4968,lng:152.8950,googleRating:4.3,googleReviews:480,walkable:true,carts:true,drivingRange:true,restaurant:true,fee9:40,fee18:65,cart9:25,cart18:50,twilight:null,sat:false,sun:true,amenities:["Hinterland","Country Club","Driving Range","Restaurant"],notes:"Weekday 18h $65, weekend $75. 9h $40/$45. Cart $50. Scenic western Brisbane.",bookingUrl:"https://goldcreekcountryclub.com.au/",bookingType:"phone",phone:null,dressCode:true,liveId:null},
+  {id:18,name:"Indooroopilly Golf Club",suburb:"Indooroopilly",type:"private",holes:36,par:null,distCBDkm:8,driveCBDmin:14,lat:-27.5025,lng:152.9769,googleRating:4.6,googleReviews:920,walkable:true,carts:true,drivingRange:true,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:false,amenities:["36 holes","Brisbane River","Championship","Members & reciprocal only"],notes:"Private club — access as member guest or reciprocal only.",bookingUrl:"https://www.igc.com.au/",bookingType:"members",phone:"07 3870 9000",dressCode:true,liveId:null},
+  {id:19,name:"Brookwater Golf & Country Club",suburb:"Springfield",type:"private",holes:18,par:72,distCBDkm:35,driveCBDmin:40,lat:-27.6628,lng:152.8886,googleRating:4.6,googleReviews:310,walkable:false,carts:true,drivingRange:true,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:false,sun:false,amenities:["Greg Norman design","Championship","Country Club"],notes:"Greg Norman Signature Course. Private — member, resort guest, or reciprocal only.",bookingUrl:"https://www.brookwater.com.au/golf/",bookingType:"members",phone:"07 3814 6000",dressCode:true,liveId:null},
+  {id:20,name:"Brisbane River Golf Club",suburb:"Karana Downs",type:"public",holes:18,par:null,distCBDkm:30,driveCBDmin:35,lat:-27.5644,lng:152.8269,googleRating:4.1,googleReviews:260,walkable:true,carts:true,drivingRange:false,restaurant:true,fee9:null,fee18:null,cart9:null,cart18:null,twilight:null,sat:true,sun:true,amenities:["Public access","River setting","Relaxed atmosphere"],notes:"Public course on the Brisbane River at Karana Downs. Scenic and relaxed.",bookingUrl:"https://www.brisbanerivergolf.com.au/",bookingType:"phone",phone:"07 3201 0833",dressCode:false,liveId:null},
 ];
 
 // ─── SUBURB COORDS ──────────────────────────────────────────────────────────
-const SUBURB_COORDS={
-  "kangaroo point":[-27.4760,153.0361],"south brisbane":[-27.4789,153.0168],"brisbane city":[-27.4698,153.0251],
-  "brisbane cbd":[-27.4698,153.0251],"fortitude valley":[-27.4583,153.0316],"new farm":[-27.4678,153.0456],
-  "woolloongabba":[-27.4893,153.0368],"west end":[-27.4818,153.0050],"south bank":[-27.4810,153.0205],
-  "spring hill":[-27.4617,153.0215],"paddington":[-27.4610,153.0050],"red hill":[-27.4500,153.0002],
-  "kelvin grove":[-27.4500,152.9994],"herston":[-27.4456,153.0115],"albion":[-27.4289,153.0356],
-  "ascot":[-27.4239,153.0591],"hamilton":[-27.4378,153.0654],"newstead":[-27.4467,153.0501],
-  "clayfield":[-27.4166,153.0556],"hendra":[-27.4123,153.0661],"chermside":[-27.3896,153.0298],
-  "kedron":[-27.4073,153.0231],"stafford":[-27.4191,153.0103],"everton park":[-27.4236,153.0017],
-  "mitchelton":[-27.4336,152.9858],"enoggera":[-27.4418,152.9709],"the gap":[-27.4638,152.9315],
-  "ashgrove":[-27.4445,152.9769],"bardon":[-27.4661,152.9736],"toowong":[-27.4841,152.9856],
-  "st lucia":[-27.5018,152.9922],"indooroopilly":[-27.5023,152.9767],"taringa":[-27.4966,152.9766],
-  "chapel hill":[-27.5127,152.9454],"kenmore":[-27.5078,152.9335],"fig tree pocket":[-27.5348,152.9627],
-  "mount ommaney":[-27.5498,152.9226],"jindalee":[-27.5463,152.9413],"oxley":[-27.5623,152.9648],
-  "corinda":[-27.5482,152.9857],"sherwood":[-27.5295,152.9850],"graceville":[-27.5244,153.0027],
-  "moorooka":[-27.5289,153.0094],"yeronga":[-27.5148,153.0088],"annerley":[-27.5034,153.0258],
-  "fairfield":[-27.5000,153.0388],"dutton park":[-27.4887,153.0358],"stones corner":[-27.5063,153.0601],
-  "greenslopes":[-27.5100,153.0601],"holland park":[-27.5243,153.0649],"mount gravatt":[-27.5418,153.0844],
-  "upper mount gravatt":[-27.5577,153.0844],"carindale":[-27.5270,153.1025],"coorparoo":[-27.5080,153.0699],
-  "camp hill":[-27.5017,153.0750],"hawthorne":[-27.4784,153.0581],"bulimba":[-27.4648,153.0623],
-  "balmoral":[-27.4714,153.0838],"morningside":[-27.4733,153.0719],"cannon hill":[-27.4617,153.0943],
-  "murarrie":[-27.4558,153.1001],"wynnum":[-27.4570,153.1609],"manly":[-27.4613,153.1829],
-  "capalaba":[-27.5322,153.2003],"redland bay":[-27.6289,153.3058],"springfield":[-27.6628,152.8886],
-  "ipswich":[-27.6135,152.7600],"springwood":[-27.6073,153.1245],"logan central":[-27.6389,153.1074],
-  "meadowbrook":[-27.6617,153.0672],"loganholme":[-27.6747,153.1178],"cornubia":[-27.6589,153.1108],
-  "beenleigh":[-27.7134,153.1965],"windaroo":[-27.7493,153.1270],"caboolture":[-27.0675,152.9515],
-  "narangba":[-27.1872,152.9749],"redcliffe":[-27.2314,153.1040],"clontarf":[-27.2604,153.1250],
-  "north lakes":[-27.2350,153.0189],"mango hill":[-27.2460,153.0323],"brookfield":[-27.4943,152.8949],
-  "karana downs":[-27.5644,152.8272],"nudgee":[-27.3650,153.0790],"keperra":[-27.4245,152.9440],
-  "ferny grove":[-27.4063,152.9303],"ferny hills":[-27.3982,152.9379],"albany creek":[-27.3567,152.9672],
-  "strathpine":[-27.2889,152.9894],"petrie":[-27.2722,152.9963],
-  "teneriffe":[-27.4567,153.0467],"bowen hills":[-27.4461,153.0307],"eagle farm":[-27.4155,153.0858],
-  "carbrook":[-27.6792,153.2008],"riverlakes":[-27.6572,153.1158],
-};
+const SUBURB_COORDS={"kangaroo point":[-27.4760,153.0361],"south brisbane":[-27.4789,153.0168],"brisbane city":[-27.4698,153.0251],"brisbane cbd":[-27.4698,153.0251],"fortitude valley":[-27.4583,153.0316],"new farm":[-27.4678,153.0456],"woolloongabba":[-27.4893,153.0368],"west end":[-27.4818,153.0050],"south bank":[-27.4810,153.0205],"spring hill":[-27.4617,153.0215],"paddington":[-27.4610,153.0050],"red hill":[-27.4500,153.0002],"kelvin grove":[-27.4500,152.9994],"herston":[-27.4456,153.0115],"albion":[-27.4289,153.0356],"ascot":[-27.4239,153.0591],"hamilton":[-27.4378,153.0654],"newstead":[-27.4467,153.0501],"clayfield":[-27.4166,153.0556],"hendra":[-27.4123,153.0661],"chermside":[-27.3896,153.0298],"kedron":[-27.4073,153.0231],"stafford":[-27.4191,153.0103],"everton park":[-27.4236,153.0017],"mitchelton":[-27.4336,152.9858],"enoggera":[-27.4418,152.9709],"the gap":[-27.4638,152.9315],"ashgrove":[-27.4445,152.9769],"bardon":[-27.4661,152.9736],"toowong":[-27.4841,152.9856],"st lucia":[-27.5018,152.9922],"indooroopilly":[-27.5023,152.9767],"taringa":[-27.4966,152.9766],"chapel hill":[-27.5127,152.9454],"kenmore":[-27.5078,152.9335],"fig tree pocket":[-27.5348,152.9627],"mount ommaney":[-27.5498,152.9226],"jindalee":[-27.5463,152.9413],"oxley":[-27.5623,152.9648],"corinda":[-27.5482,152.9857],"sherwood":[-27.5295,152.9850],"graceville":[-27.5244,153.0027],"moorooka":[-27.5289,153.0094],"yeronga":[-27.5148,153.0088],"annerley":[-27.5034,153.0258],"fairfield":[-27.5000,153.0388],"dutton park":[-27.4887,153.0358],"stones corner":[-27.5063,153.0601],"greenslopes":[-27.5100,153.0601],"holland park":[-27.5243,153.0649],"mount gravatt":[-27.5418,153.0844],"upper mount gravatt":[-27.5577,153.0844],"carindale":[-27.5270,153.1025],"coorparoo":[-27.5080,153.0699],"camp hill":[-27.5017,153.0750],"hawthorne":[-27.4784,153.0581],"bulimba":[-27.4648,153.0623],"balmoral":[-27.4714,153.0838],"morningside":[-27.4733,153.0719],"cannon hill":[-27.4617,153.0943],"wynnum":[-27.4570,153.1609],"manly":[-27.4613,153.1829],"capalaba":[-27.5322,153.2003],"redland bay":[-27.6289,153.3058],"springfield":[-27.6628,152.8886],"ipswich":[-27.6135,152.7600],"springwood":[-27.6073,153.1245],"logan central":[-27.6389,153.1074],"meadowbrook":[-27.6617,153.0672],"loganholme":[-27.6747,153.1178],"cornubia":[-27.6589,153.1108],"beenleigh":[-27.7134,153.1965],"windaroo":[-27.7493,153.1270],"caboolture":[-27.0675,152.9515],"narangba":[-27.1872,152.9749],"redcliffe":[-27.2314,153.1040],"clontarf":[-27.2604,153.1250],"north lakes":[-27.2350,153.0189],"mango hill":[-27.2460,153.0323],"brookfield":[-27.4943,152.8949],"karana downs":[-27.5644,152.8272],"nudgee":[-27.3650,153.0790],"keperra":[-27.4245,152.9440],"ferny grove":[-27.4063,152.9303],"ferny hills":[-27.3982,152.9379],"albany creek":[-27.3567,152.9672],"strathpine":[-27.2889,152.9894],"petrie":[-27.2722,152.9963],"carbrook":[-27.6792,153.2008]};
 
-function haversine([lat1,lng1],[lat2,lng2]){
-  const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLng=(lng2-lng1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
+function haversine([lat1,lng1],[lat2,lng2]){const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLng=(lng2-lng1)*Math.PI/180,a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function approxDriveMin(km){return Math.round(km/0.68);}
 
-let filterAccess='all',filterPrice='all',sortBy='name';
-let userCoords=null,userSuburb='';
+let filterAccess='all',filterPrice='all',sortBy='name',userCoords=null,userSuburb='';
 
 function stars(n){const f=Math.floor(n),h=n%1>=.5?1:0,e=5-f-h;return'★'.repeat(f)+(h?'½':'')+'☆'.repeat(e);}
 function fmtFee(v){return v==null?'<span style="font-size:.82rem;color:var(--muted)">Call</span>':`$${v}`;}
 
-// ─── BOOKING URL BUILDER ─────────────────────────────────────────────────────
-function buildBookingUrl(c, dateStr, players){
-  const d = dateStr ? new Date(dateStr) : null;
-  // Format: DD/MM/YYYY for MiClub, YYYY-MM-DD for others
-  const ddmmyyyy = d ? `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}` : '';
-  const yyyymmdd = dateStr || '';
-
-  if(c.bookingType==='miclub'){
-    let base = c.bookingUrl;
-    if(dateStr) base += `&date=${ddmmyyyy}`;
-    if(players) base += `&num_holes=18&num_players=${players}`;
-    return base;
-  }
-  if(c.bookingType==='golfnow'){
-    let base = `https://www.golfnow.com/tee-times/facility/15387-mcleod-country-golf-club/search`;
-    if(dateStr) base += `?date=${yyyymmdd}`;
-    if(players) base += `${dateStr?'&':'?'}players=${players}`;
-    return base;
-  }
-  if(c.bookingType==='teeitup'){
-    // TeeItUp supports date and players in URL
-    let base = c.bookingUrl;
-    if(dateStr) base += `?date=${yyyymmdd}`;
-    return base;
-  }
-  // Default — just return the booking page
+// ─── QUICK BOOK ──────────────────────────────────────────────────────────────
+function isSat(d){return new Date(d).getDay()===6;}
+function isSun(d){return new Date(d).getDay()===0;}
+function isWeekend(d){return isSat(d)||isSun(d);}
+function buildUrl(c,dateStr,players){
+  const [y,m,day]=dateStr.split('-');
+  if(c.bookingType==='miclub') return `${c.bookingUrl}&date=${day}/${m}/${y}&num_players=${players}`;
+  if(c.bookingType==='golfnow') return `${c.bookingUrl}?date=${dateStr}&players=${players}`;
+  if(c.bookingType==='teeitup') return `${c.bookingUrl}?date=${dateStr}`;
   return c.bookingUrl;
 }
 
-// ─── QUICK BOOK LOGIC ────────────────────────────────────────────────────────
-function getDayName(dateStr){
-  if(!dateStr) return '';
-  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  return days[new Date(dateStr).getDay()];
-}
-function isSaturday(dateStr){ return new Date(dateStr).getDay()===6; }
-function isSunday(dateStr){ return new Date(dateStr).getDay()===0; }
-
-document.getElementById('qbSearch').addEventListener('click',()=>{
-  const dateStr = document.getElementById('qbDate').value;
-  const players = parseInt(document.getElementById('qbPlayers').value);
-  const holes = parseInt(document.getElementById('qbHoles').value);
-
-  if(!dateStr){ alert('Please select a date first!'); return; }
-
-  const dayName = getDayName(dateStr);
-  const isSat = isSaturday(dateStr);
-  const isSun = isSunday(dateStr);
-  const isWeekend = isSat || isSun;
-
-  // Format date nicely
-  const d = new Date(dateStr);
-  const pretty = d.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-
-  document.getElementById('qbResultsTitle').innerHTML =
-    `Results for <strong>${pretty}</strong> · <strong>${players} golfer${players>1?'s':''}</strong> · <strong>${holes} holes</strong>`;
-
-  const tbody = document.getElementById('qbTableBody');
-  tbody.innerHTML = '';
-
-  courses.forEach(c=>{
-    // Skip purely private
-    if(c.type==='private') return;
-
-    // Check access for this day
-    const satOk = c.sat;
-    const sunOk = c.sun;
-    let access, accessClass;
-
-    if(isSat && !satOk){ access='Members only'; accessClass='avail-no'; }
-    else if(isSun && !sunOk){ access='Not available'; accessClass='avail-no'; }
-    else if(!isSat && !isSun){ access='✓ Open'; accessClass='avail-yes'; }
-    else { access='✓ Open'; accessClass='avail-yes'; }
-
-    // Estimate cost
-    let feePerPerson = holes===9 ? c.fee9 : c.fee18;
-    let costCell;
-    if(feePerPerson==null){
-      costCell=`<span class="cost-na">Call for price</span>`;
-    } else {
-      // Weekend surcharge indicator (some clubs known to charge more)
-      const total = feePerPerson * players;
-      const weekend = isWeekend && (c.id===5||c.id===12||c.id===16);
-      costCell=`<span class="cost-cell">$${total}</span>${weekend?'<span style="font-size:.66rem;color:var(--sandd);margin-left:4px">+wknd</span>':''}`;
+async function fetchLiveTimes(dateStr,players){
+  const res = await fetch(`${EDGE_FN_URL}?date=${dateStr}&players=${players}`,{
+    headers:{
+      'apikey': SUPABASE_ANON_KEY,
+      'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
     }
-
-    // Build booking button
-    let bookBtn;
-    const url = buildBookingUrl(c, dateStr, players);
-    if(c.bookingType==='walkin'){
-      bookBtn=`<span class="btn-tee disabled">Walk-in only</span>`;
-    } else if(c.bookingType==='phone'){
-      const ph = c.phone ? `<a href="tel:${c.phone.replace(/\s/g,'')}" class="btn-tee" style="background:var(--sandd);color:#1a1a18">📞 ${c.phone}</a>` : `<span class="btn-tee disabled">Phone club</span>`;
-      bookBtn = ph;
-    } else if(c.bookingType==='members'){
-      bookBtn=`<span class="btn-tee disabled">Members only</span>`;
-    } else {
-      const label = c.bookingType==='golfnow'?'GolfNow →':c.bookingType==='miclub'?'MiClub →':c.bookingType==='teeitup'?'TeeItUp →':'Book →';
-      bookBtn=`<a href="${url}" target="_blank" class="btn-tee">${label}</a>`;
-    }
-
-    // Disable if day access not available
-    if(accessClass==='avail-no'){
-      bookBtn=`<span class="btn-tee disabled">Not available</span>`;
-    }
-
-    const tr = document.createElement('tr');
-    tr.innerHTML=`
-      <td><div class="course-name">${c.name}</div><div style="font-size:.68rem;color:rgba(255,255,255,.35)">${c.suburb}</div></td>
-      <td class="${accessClass}">${access}</td>
-      <td>${costCell}</td>
-      <td>${bookBtn}</td>
-    `;
-    tbody.appendChild(tr);
   });
+  if(!res.ok) throw new Error(`Edge function error: ${res.status}`);
+  return res.json();
+}
 
+function renderQbCard(c, dateStr, players, holes, liveData){
+  const sat=isSat(dateStr), sun=isSun(dateStr), weekend=sat||sun;
+  let accessHtml, accessOk=true;
+  if(sat&&!c.sat){accessHtml='<div class="qb-access no">✗ Saturday — members only</div>';accessOk=false;}
+  else if(sun&&!c.sun){accessHtml='<div class="qb-access no">✗ Not available Sundays</div>';accessOk=false;}
+  else if(!weekend){accessHtml='<div class="qb-access ok">✓ Open today (weekday)</div>';}
+  else{accessHtml='<div class="qb-access ok">✓ Open '+(sat?'Saturday':'Sunday')+'</div>';}
+
+  // Cost estimate
+  const feePerPerson = holes===9 ? c.fee9 : c.fee18;
+  let costHtml;
+  if(feePerPerson!=null){
+    const total=feePerPerson*players;
+    costHtml=`<div class="qb-cost-row"><div><div class="qb-cost">$${total}</div><div class="qb-cost-label">est. total (walk) · $${feePerPerson}×${players}</div></div></div>`;
+  } else {
+    costHtml=`<div class="qb-cost-row"><div class="qb-cost-na">Fees not published — call to confirm</div></div>`;
+  }
+
+  // Live times section
+  let timesHtml='';
+  let badgeHtml='';
+  if(c.liveId && liveData){
+    const courseResult = liveData.results?.find(r=>r.courseId===c.liveId);
+    if(courseResult && !courseResult.error){
+      badgeHtml='<span class="qb-live-badge live">⚡ Live</span>';
+      if(courseResult.times && courseResult.times.length>0){
+        const chips = courseResult.times.slice(0,16).map(t=>{
+          if(t.available){
+            const url=t.bookUrl?`${c.bookingUrl.split('?')[0]}${t.bookUrl}`:buildUrl(c,dateStr,players);
+            return `<a href="${url}" target="_blank" class="qb-time-chip avail" title="${t.spots} spot${t.spots!==1?'s':''} available">${t.time}</a>`;
+          }
+          return `<span class="qb-time-chip taken">${t.time}</span>`;
+        }).join('');
+        const avail=courseResult.totalAvailable;
+        timesHtml=`<div class="qb-times-wrap">
+          <div class="qb-times-label">Live tee times — ${avail} available for ${players}+ players</div>
+          <div class="qb-times">${chips||'<span class="qb-no-times">No times found for this date</span>'}</div>
+        </div>`;
+      } else {
+        timesHtml=`<div class="qb-times-wrap"><div class="qb-times-label">Live tee times</div><div class="qb-no-times">No tee times found for this date — course may be closed or fully booked</div></div>`;
+      }
+    } else if(courseResult?.error){
+      badgeHtml='<span class="qb-live-badge error">⚠ Live fetch failed</span>';
+      timesHtml=`<div class="qb-no-times" style="font-size:.72rem">${courseResult.error}</div>`;
+    } else {
+      badgeHtml='<span class="qb-live-badge static">Loading…</span>';
+      timesHtml=`<div class="qb-times-loading">Fetching live tee times…</div>`;
+    }
+  } else {
+    badgeHtml='<span class="qb-live-badge static">Link</span>';
+  }
+
+  // Book button
+  let bookBtn;
+  if(!accessOk){
+    bookBtn=`<span class="qb-book-btn disabled">Not available this day</span>`;
+  } else if(c.bookingType==='walkin'){
+    bookBtn=`<span class="qb-book-btn disabled">Walk-in only — just show up</span>`;
+  } else if(c.bookingType==='phone'){
+    const ph=c.phone?`<a href="tel:${c.phone.replace(/\s/g,'')}" class="qb-book-btn phone">📞 Call ${c.phone}</a>`:`<span class="qb-book-btn disabled">Call club to book</span>`;
+    bookBtn=ph;
+  } else if(c.bookingType==='members'){
+    bookBtn=`<span class="qb-book-btn disabled">Members only</span>`;
+  } else {
+    const label=c.bookingType==='golfnow'?'Open GolfNow →':c.bookingType==='miclub'?'Open MiClub →':c.bookingType==='teeitup'?'Open TeeItUp →':'Open Booking Page →';
+    bookBtn=`<a href="${buildUrl(c,dateStr,players)}" target="_blank" class="qb-book-btn">${label}</a>`;
+  }
+
+  return `<div class="qb-card">
+    <div class="qb-card-header">
+      <div><div class="qb-course-name">${c.name}</div><div class="qb-course-sub">${c.suburb}</div></div>
+      ${badgeHtml}
+    </div>
+    ${accessHtml}
+    ${costHtml}
+    ${timesHtml}
+    ${bookBtn}
+  </div>`;
+}
+
+document.getElementById('qbSearch').addEventListener('click', async ()=>{
+  const dateStr=document.getElementById('qbDate').value;
+  const players=parseInt(document.getElementById('qbPlayers').value);
+  const holes=parseInt(document.getElementById('qbHoles').value);
+  if(!dateStr){alert('Please select a date first!');return;}
+
+  const btn=document.getElementById('qbSearch');
+  btn.disabled=true; btn.textContent='⏳ Fetching…';
+
+  const d=new Date(dateStr);
+  const pretty=d.toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('qbResultsTitle').innerHTML=`Tee times for <strong>${pretty}</strong> · <strong>${players} golfer${players>1?'s':''}</strong> · <strong>${holes} holes</strong>`;
+
+  // Show results area immediately with loading state for live courses
+  const visibleCourses=courses.filter(c=>c.type!=='private');
+  document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,null)).join('');
   document.getElementById('qbResults').classList.add('show');
   document.getElementById('qbResults').scrollIntoView({behavior:'smooth',block:'nearest'});
+
+  // Fetch live data
+  try {
+    const liveData = await fetchLiveTimes(dateStr,players);
+    // Re-render with live data
+    document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,liveData)).join('');
+  } catch(err){
+    console.warn('Live fetch failed:',err);
+    // Re-render with error state for live courses
+    const errorData={results:[{courseId:'redcliffe',error:err.message,times:[],totalAvailable:0,earliestAvailable:null}]};
+    document.getElementById('qbCards').innerHTML=visibleCourses.map(c=>renderQbCard(c,dateStr,players,holes,errorData)).join('');
+  }
+
+  btn.disabled=false; btn.textContent='⚡ Find Tee Times';
 });
 
-// Set default date to today
-const today = new Date().toISOString().split('T')[0];
-document.getElementById('qbDate').value = today;
-document.getElementById('qbDate').min = today;
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('qbDate').value=today;
+document.getElementById('qbDate').min=today;
 
-// ─── SUBURB LOGIC ────────────────────────────────────────────────────────────
+// ─── SUBURB ──────────────────────────────────────────────────────────────────
 document.getElementById('suburbBtn').addEventListener('click',()=>{
   const raw=document.getElementById('suburbInput').value.trim().toLowerCase();
   const status=document.getElementById('suburbStatus');
   if(!raw){status.textContent='Please enter a suburb name.';status.className='suburb-status err';return;}
   const key=Object.keys(SUBURB_COORDS).find(k=>k===raw||k.startsWith(raw)||raw.startsWith(k));
-  if(key){
-    userCoords=SUBURB_COORDS[key];
-    userSuburb=key.split(' ').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');
-    status.textContent=`📍 Showing distances from ${userSuburb}`;
-    status.className='suburb-status ok';
-    sortBy='distUser';
-    document.getElementById('sortSelect').value='distUser';
-    render();
-  } else {
-    status.textContent=`"${raw}" not found — try a nearby suburb.`;
-    status.className='suburb-status err';
-  }
+  if(key){userCoords=SUBURB_COORDS[key];userSuburb=key.split(' ').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');status.textContent=`📍 Showing distances from ${userSuburb}`;status.className='suburb-status ok';sortBy='distUser';document.getElementById('sortSelect').value='distUser';render();}
+  else{status.textContent=`"${raw}" not found — try a nearby suburb.`;status.className='suburb-status err';}
 });
 document.getElementById('suburbInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('suburbBtn').click();});
-document.getElementById('clearBtn').addEventListener('click',()=>{
-  userCoords=null;userSuburb='';
-  document.getElementById('suburbInput').value='';
-  document.getElementById('suburbStatus').textContent='';
-  document.getElementById('suburbStatus').className='suburb-status';
-  render();
-});
+document.getElementById('clearBtn').addEventListener('click',()=>{userCoords=null;userSuburb='';document.getElementById('suburbInput').value='';document.getElementById('suburbStatus').textContent='';document.getElementById('suburbStatus').className='suburb-status';render();});
 
-// ─── CARD RENDER ──────────────────────────────────────────────────────────────
-function renderDist(c){
-  if(!userCoords){
-    return `<div class="dist-box plain"><span>🚗</span><div><div class="dist-text">${c.driveCBDmin} min from CBD</div><div class="dist-sub">${c.distCBDkm} km · Enter suburb above for your distance</div></div></div>`;
-  }
-  const km=haversine(userCoords,[c.lat,c.lng]);
-  const min=approxDriveMin(km);
-  return `<div class="dist-box"><span>📍</span><div><div class="dist-text">${min} min drive from ${userSuburb}</div><div class="dist-sub">${km.toFixed(1)} km · ${c.driveCBDmin} min from CBD</div></div></div>`;
-}
+// ─── CARDS ───────────────────────────────────────────────────────────────────
+function renderDist(c){if(!userCoords)return`<div class="dist-box plain"><span>🚗</span><div><div class="dist-text">${c.driveCBDmin} min from CBD</div><div class="dist-sub">${c.distCBDkm} km · Enter suburb above</div></div></div>`;const km=haversine(userCoords,[c.lat,c.lng]),min=approxDriveMin(km);return`<div class="dist-box"><span>📍</span><div><div class="dist-text">${min} min from ${userSuburb}</div><div class="dist-sub">${km.toFixed(1)} km · ${c.driveCBDmin} min from CBD</div></div></div>`;}
+function renderCard(c){const bdg=c.type==='public'?'badge-public':c.type==='semi'?'badge-semi':'badge-private',bl=c.type==='public'?'Public':c.type==='semi'?'Semi-Private':'Private',st=c.sat?'<span class="day-tag day-yes">✓ Sat</span>':'<span class="day-tag day-no">✗ Sat</span>',su=c.sun?'<span class="day-tag day-yes">✓ Sun</span>':'<span class="day-tag day-no">✗ Sun</span>';let fH=c.fee18!=null?`<div class="fees-grid"><div class="fee-box"><span class="fee-label">9 Holes</span><div class="fee-amount">${fmtFee(c.fee9)}</div></div><div class="fee-box hl"><span class="fee-label">18 Holes</span><div class="fee-amount">${fmtFee(c.fee18)}</div>${c.cart18?`<div class="fee-sub">+$${c.cart18} cart</div>`:''}</div></div>${c.twilight?`<div class="twilight-text">🌅 ${c.twilight}</div>`:''}`:
+`<div class="call-box"><span>📞</span><div><div class="call-text">Call or visit site for fees</div><div class="call-sub">Prices not publicly listed</div></div></div>`;
+const liveChip=c.liveId?'<span style="font-size:.65rem;background:rgba(82,183,136,.15);color:var(--gl);border:1px solid rgba(82,183,136,.3);padding:2px 6px;border-radius:5px;margin-left:4px">⚡ Live times</span>':'';
+return`<div class="card"><div class="card-header"><div><div class="card-name">${c.name}${liveChip}</div><div class="card-sub">${c.suburb}${c.dressCode?' · 👔 Dress code':''}</div></div><span class="badge ${bdg}">${bl}</span></div><div class="card-body"><div class="pills"><span class="pill">⛳ Par ${c.par||'—'} · ${c.holes} holes</span>${c.walkable?'<span class="pill">🚶 Walk</span>':''}${c.carts?'<span class="pill">🛒 Carts</span>':''}${c.drivingRange?'<span class="pill">🏌️ Range</span>':''}</div><div class="rating-row"><span class="stars">${stars(c.googleRating)}</span><span class="rating-num">${c.googleRating}</span><span class="rating-ct">(~${c.googleReviews.toLocaleString()} reviews)</span></div>${renderDist(c)}${fH}<div class="day-row">${st}${su}</div><div class="amenities">${c.amenities.map(a=>`<span class="atag">${a}</span>`).join('')}</div><p class="notes-text">${c.notes}</p></div><div class="card-footer"><a href="${c.bookingUrl}" target="_blank" rel="noopener" class="btn-book">Book / Info →</a>${c.phone?`<a href="tel:${c.phone.replace(/\s/g,'')}" class="btn-phone" title="${c.phone}">📞</a>`:''}</div></div>`;}
 
-function renderCard(c){
-  const bdg=c.type==='public'?'badge-public':c.type==='semi'?'badge-semi':'badge-private';
-  const bdgLabel=c.type==='public'?'Public':c.type==='semi'?'Semi-Private':'Private';
-  const satTag=c.sat?'<span class="day-tag day-yes">✓ Sat</span>':'<span class="day-tag day-no">✗ Sat</span>';
-  const sunTag=c.sun?'<span class="day-tag day-yes">✓ Sun</span>':'<span class="day-tag day-no">✗ Sun</span>';
-  const hasKnownFees=c.fee18!==null;
-  let feesHtml;
-  if(hasKnownFees){
-    feesHtml=`<div class="fees-grid">
-      <div class="fee-box"><span class="fee-label">9 Holes</span><div class="fee-amount">${fmtFee(c.fee9)}</div></div>
-      <div class="fee-box hl"><span class="fee-label">18 Holes</span><div class="fee-amount">${fmtFee(c.fee18)}</div>${c.cart18?`<div class="fee-sub">+$${c.cart18} cart</div>`:''}</div>
-    </div>`;
-    if(c.twilight) feesHtml+=`<div class="twilight-text">🌅 ${c.twilight}</div>`;
-  } else {
-    feesHtml=`<div class="call-box"><span style="font-size:1.1rem">📞</span><div><div class="call-text">Call or visit site for fees</div><div class="call-sub">Prices not publicly listed</div></div></div>`;
-  }
-  return `<div class="card">
-    <div class="card-header">
-      <div><div class="card-name">${c.name}</div><div class="card-sub">${c.suburb}${c.dressCode?' · 👔 Dress code':''}</div></div>
-      <span class="badge ${bdg}">${bdgLabel}</span>
-    </div>
-    <div class="card-body">
-      <div class="pills">
-        <span class="pill">⛳ Par ${c.par||'—'} · ${c.holes} holes</span>
-        ${c.walkable?'<span class="pill">🚶 Walk</span>':''}
-        ${c.carts?'<span class="pill">🛒 Carts</span>':''}
-        ${c.drivingRange?'<span class="pill">🏌️ Range</span>':''}
-      </div>
-      <div class="rating-row">
-        <span class="stars">${stars(c.googleRating)}</span>
-        <span class="rating-num">${c.googleRating}</span>
-        <span class="rating-ct">(~${c.googleReviews.toLocaleString()} reviews)</span>
-      </div>
-      ${renderDist(c)}
-      ${feesHtml}
-      <div class="day-row">${satTag}${sunTag}</div>
-      <div class="amenities">${c.amenities.map(a=>`<span class="atag">${a}</span>`).join('')}</div>
-      <p class="notes-text">${c.notes}</p>
-    </div>
-    <div class="card-footer">
-      <a href="${c.bookingUrl}" target="_blank" rel="noopener" class="btn-book">Book / Info →</a>
-      ${c.phone?`<a href="tel:${c.phone.replace(/\s/g,'')}" class="btn-phone" title="${c.phone}">📞</a>`:''}
-    </div>
-  </div>`;
-}
+function getUserDist(c){return userCoords?haversine(userCoords,[c.lat,c.lng]):c.distCBDkm;}
+function filtered(){return courses.filter(c=>{if(filterAccess!=='all'&&c.type!==filterAccess)return false;if(filterPrice==='under50'&&c.fee18!==null&&c.fee18>=50)return false;if(filterPrice==='50to70'&&c.fee18!==null&&(c.fee18<50||c.fee18>70))return false;if(filterPrice==='over70'&&c.fee18!==null&&c.fee18<70)return false;return true;}).sort((a,b)=>{if(sortBy==='name')return a.name.localeCompare(b.name);if(sortBy==='price18asc')return(a.fee18??9999)-(b.fee18??9999);if(sortBy==='price18desc')return(b.fee18??-1)-(a.fee18??-1);if(sortBy==='rating')return b.googleRating-a.googleRating;if(sortBy==='distCBD')return a.distCBDkm-b.distCBDkm;if(sortBy==='distUser')return getUserDist(a)-getUserDist(b);return 0;});}
+function render(){const list=filtered();document.getElementById('visibleCount').textContent=list.length;const g=document.getElementById('courseGrid');if(!list.length){g.innerHTML='<div class="empty"><p>No courses match those filters.</p></div>';return;}g.innerHTML=list.map(renderCard).join('');}
 
-// ─── FILTER + SORT + RENDER ──────────────────────────────────────────────────
-function getUserDist(c){ return userCoords?haversine(userCoords,[c.lat,c.lng]):c.distCBDkm; }
-
-function filtered(){
-  return courses.filter(c=>{
-    if(filterAccess!=='all'&&c.type!==filterAccess) return false;
-    if(filterPrice==='under50'){if(c.fee18!==null&&c.fee18>=50)return false;}
-    if(filterPrice==='50to70'){if(c.fee18!==null&&(c.fee18<50||c.fee18>70))return false;}
-    if(filterPrice==='over70'){if(c.fee18!==null&&c.fee18<70)return false;}
-    return true;
-  }).sort((a,b)=>{
-    if(sortBy==='name') return a.name.localeCompare(b.name);
-    if(sortBy==='price18asc') return (a.fee18??9999)-(b.fee18??9999);
-    if(sortBy==='price18desc') return (b.fee18??-1)-(a.fee18??-1);
-    if(sortBy==='rating') return b.googleRating-a.googleRating;
-    if(sortBy==='distCBD') return a.distCBDkm-b.distCBDkm;
-    if(sortBy==='distUser') return getUserDist(a)-getUserDist(b);
-    return 0;
-  });
-}
-
-function render(){
-  const list=filtered();
-  document.getElementById('visibleCount').textContent=list.length;
-  const grid=document.getElementById('courseGrid');
-  if(!list.length){grid.innerHTML='<div class="empty"><p>No courses match those filters.</p></div>';return;}
-  grid.innerHTML=list.map(renderCard).join('');
-}
-
-document.querySelectorAll('.chip[data-filter="access"]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.chip[data-filter="access"]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');filterAccess=b.dataset.val;render();
-}));
-document.querySelectorAll('.chip[data-filter="price"]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.chip[data-filter="price"]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');filterPrice=b.dataset.val;render();
-}));
+document.querySelectorAll('.chip[data-filter="access"]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chip[data-filter="access"]').forEach(x=>x.classList.remove('active'));b.classList.add('active');filterAccess=b.dataset.val;render();}));
+document.querySelectorAll('.chip[data-filter="price"]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.chip[data-filter="price"]').forEach(x=>x.classList.remove('active'));b.classList.add('active');filterPrice=b.dataset.val;render();}));
 document.getElementById('sortSelect').addEventListener('change',e=>{sortBy=e.target.value;render();});
-
 render();
 </script>
 </body>
